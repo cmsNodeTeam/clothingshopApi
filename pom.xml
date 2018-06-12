@@ -4,10 +4,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.dev.api</groupId>
-	<artifactId>ClothesShopApi</artifactId>
+	<artifactId>clothingshopApi</artifactId>
 	<version>1.0.0</version>
-	<name>ClothesShopApi</name>
-	<description>Clothes Shop RESTful API</description>
+	<name>clothingshopApi</name>
+	<description>Clothing Shop RESTful API</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
