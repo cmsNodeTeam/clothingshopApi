@@ -29,7 +29,6 @@ public class ApiConfiguration extends WebMvcConfigurationSupport{
 	
 	@Bean
 	public Docket createRestApi() {
-		//swagger-ui-layer 
 		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
 				.apis(RequestHandlerSelectors.basePackage("com.dev.api.controller")).paths(PathSelectors.any())
 				.build();
