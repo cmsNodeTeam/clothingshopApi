@@ -1,9 +1,13 @@
 package com.dev.api.config;
 
+import java.util.Locale;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -16,24 +20,31 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableSwagger2
 @Configuration
-public class ApiConfiguration extends WebMvcConfigurationSupport{
+public class ApiConfiguration extends WebMvcConfigurationSupport {
 
-  @Override
-  public void addResourceHandlers(ResourceHandlerRegistry registry) {
-      registry.addResourceHandler("swagger-ui.html")
-              .addResourceLocations("classpath:/META-INF/resources/");
-
-      registry.addResourceHandler("/webjars/**")
-              .addResourceLocations("classpath:/META-INF/resources/webjars/");
-      
-      registry.addResourceHandler("/static/**")
-      		  .addResourceLocations("classpath:/static/");
-  }
+	@Bean
+    public LocaleResolver localeResolver() {
+        CookieLocaleResolver cookieLocale = new CookieLocaleResolver();
+        // 默认语言
+        cookieLocale.setDefaultLocale(Locale.CHINA);
+        cookieLocale.setCookieName("superLanguage");
+        cookieLocale.setCookieMaxAge(7 * 24 * 3600);
+        return cookieLocale;
+    }
 	
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+
+		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+
+		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+	}
+
 	@Bean
 	public Docket createLoginApi() {
-		return new Docket(DocumentationType.SWAGGER_2).groupName("Login").forCodeGeneration(true)
-				.apiInfo(apiInfo()).select().apis(RequestHandlerSelectors.basePackage("com.dev.api.controller.login.rest"))
+		return new Docket(DocumentationType.SWAGGER_2).groupName("Login").forCodeGeneration(true).apiInfo(apiInfo())
+				.select().apis(RequestHandlerSelectors.basePackage("com.dev.api.controller.login.rest"))
 				.paths(PathSelectors.any()).build();
 	}
 

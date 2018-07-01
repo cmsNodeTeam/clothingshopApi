@@ -1,5 +1,7 @@
 package com.dev.api.schema;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -13,6 +15,9 @@ public class CommonResult<T> {
 
 	@ApiModelProperty(value = "Response error message")
 	private String msg;
+	
+	@JsonIgnore
+	private String redirectURL;
 
 	public CommonResult() {
 	}
@@ -57,6 +62,14 @@ public class CommonResult<T> {
 
 	public void setData(T data) {
 		this.data = data;
+	}
+	
+	public String getRedirectURL() {
+		return redirectURL;
+	}
+
+	public void setRedirectURL(String redirectURL) {
+		this.redirectURL = redirectURL;
 	}
 
 }
