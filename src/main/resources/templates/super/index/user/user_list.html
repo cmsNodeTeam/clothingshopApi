@@ -1,0 +1,90 @@
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            <%=CGlobal.serverLang('用户设置')%>
+        </h1>
+        <breadcrumb></breadcrumb>
+    </section>
+
+    <section class="content" ng-controller="adminUserCtrl">
+        <div class="box box-flat animated fadeInRight">
+            <div class="box-body padding-bottom-none">
+                <div class="row margin-row">
+                    <div class="col-lg-5 col-md-4 col-sm-6 col-xs-12">
+                        <div class="has-feedback">
+                            <input type="text" class="form-control"
+                                   placeholder="<%=CGlobal.serverLang('用户ID,用户名,商店ID,邮箱地址...')%>" id="esSearchInput">
+                            <span class="fa fa-lg fa-search form-control-feedback"></span>
+                        </div>
+                    </div>
+                    <div class="icheck-group col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                        <input type="radio" name="opt" value="ALL" id="radio1" checked>
+                        <label for="radio1"><%=CGlobal.serverLang('全部')%></label>
+                        <input type="radio" name="opt" value="T" id="radio2">
+                        <label for="radio2"><%=CGlobal.serverLang('激活')%></label>
+                        <input type="radio" name="opt" value="F" id="radio3">
+                        <label for="radio3"><%=CGlobal.serverLang('未激活')%></label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="btn-group pull-right" id="toolbar">
+                            <button class="btn btn-default btn-flat" id="searchUser"
+                                    title="<%=CGlobal.serverLang('查询')%>">
+                                <span class="glyphicon glyphicon-search"></span>
+                                <%=CGlobal.serverLang('查询')%>
+                            </button>
+                            <a class="btn btn-default btn-flat" id="newUser"
+                                    title="<%=CGlobal.serverLang('新建')%>" href="javascript:void(0)">
+                                <span class="glyphicon glyphicon-file"></span>
+                                <%=CGlobal.serverLang('新建')%>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-tabs-custom margin-bottom-none" style="box-shadow:none">
+                <ul class="nav nav-tabs" id="tabList">
+                    <li class="active"><a href="#ALL" data-toggle="tab"><%=CGlobal.serverLang('全部')%></a>
+                    </li>
+                    <li><a href="#NORMAL" data-toggle="tab"><%=CGlobal.serverLang('普通用户')%></a></li>
+                    <li><a href="#3RD" data-toggle="tab"><%=CGlobal.serverLang('接口用户')%></a></li>
+                    <%if(CGlobal.isPermission(adminSession.rights,CGlobal.Rights.createSYSUser.code) &&
+                    adminSession.shopId === 'SYSTEM'){%>
+                    <li><a href="#SYSTEM" data-toggle="tab"><%=CGlobal.serverLang('系统用户')%></a></li>
+                    <%}%>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <table class="table table-no-bordered" id="userTable">
+                        </table>
+                        <%#表格右击触发事件%>
+                        <ul id="context-menu" class="dropdown-menu">
+                            <li data-item="newUser"><a href="javascript:void(0);"><%=CGlobal.serverLang('新建')%></a>
+                            </li>
+                            <li data-item="modifyUser"><a href="javascript:void(0);"><%=CGlobal.serverLang('编辑')%></a>
+                            </li>
+                            <li data-item="deleteUser"><a href="javascript:void(0);"><%=CGlobal.serverLang('删除')%></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    requirejs.undef("userSetup");
+    requirejs.config({
+        baseUrl: '/js',
+        paths: {
+//            icheck: 'icheck/icheck.min',
+            jspdfTable:'jquery/plugins/export/jspdf.autotable',
+            jspdf:'jquery/plugins/export/jspdf.debug',
+            png:'jquery/plugins/export/html2canvas',
+            bsTablePlugin:'bootstrap/table/bootstrap-table-export.min',
+            tableExport:'bootstrap/table/tableExport',
+            userSetup: 'super/user/userSetupController'
+        },
+        loadContainer: '#ngView',
+        deps: ['userSetup']
+    });
+</script>

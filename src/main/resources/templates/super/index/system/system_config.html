@@ -1,0 +1,101 @@
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            <%=CGlobal.serverLang('系统数据配置')%><small id="configName"></small>
+        </h1>
+        <breadcrumb></breadcrumb>
+    </section>
+
+    <section class="content">
+        <div class="box box-flat animated fadeInRight">
+            <div class="box-body">
+                <div class="row margin-row">
+                    <div class="col-xs-9">
+                        <div class="has-feedback">
+                            <input type="text" class="form-control"
+                                   placeholder="<%=CGlobal.serverLang('Key,组名,值,描述')%>" id="searchInput">
+                            <span class="fa fa-lg fa-search form-control-feedback"></span>
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="btn-group pull-right">
+                            <div class="btn-group pull-right">
+                                <!--<button class="btn btn-danger btn-flat" id="deleteConfig" disabled>
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                    <%=CGlobal.serverLang('删除')%>
+                                </button>-->
+                                <button class="btn btn-default btn-flat hidden" id="returnConfig">
+                                    <span class="fa fa-reply"></span>
+                                    <%=CGlobal.serverLang('返回')%>
+                                </button>
+                                <button class="btn btn-default btn-flat" id="newConfig">
+                                    <span class="glyphicon glyphicon-file"></span>
+                                    <%=CGlobal.serverLang('新建')%>
+                                </button>
+                                <button class="btn btn-default btn-flat" id="searchConfig">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                    <%=CGlobal.serverLang('查询')%>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-no-bordered" id="systemConfigTable">
+                        </table>
+                        <ul id="context-menu" class="dropdown-menu skin-menu">
+                            <li data-item="newConfig"><a href="javascript:void(0);"><%=CGlobal.serverLang('新建')%></a></li>
+                            <li data-item="modifyConfig"><a href="javascript:void(0);"><%=CGlobal.serverLang('编辑')%></a></li>
+                            <li data-item="deleteConfig"><a href="javascript:void(0);"><%=CGlobal.serverLang('删除')%></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="configModal"
+         aria-labelledby="configModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="configTitle"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-details col-per-2 mw-max">
+                        <div class="input-group">
+                            <label class="input-group-addon required" for="inputKey"><%=CGlobal.serverLang('Key')%></label>
+                            <input type="text" class="form-control" id="inputKey">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-group-addon required" for="inputValue"><%=CGlobal.serverLang('值')%></label>
+                            <textarea type="text" class="form-control" id="inputValue" style="height: 200px"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-group-addon" for="inputDesc"><%=CGlobal.serverLang('描述')%></label>
+                            <input type="text" class="form-control" id="inputDesc">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="configParse"><%=CGlobal.serverLang('格式化')%></button>
+                    <button type="button" class="btn btn-primary" id="configOk"><%=CGlobal.serverLang('确定')%></button>
+                    <button type="button" class="btn btn-default" id="configClose"><%=CGlobal.serverLang('关闭')%></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    requirejs.undef("systemConfig");
+    requirejs.config({
+        baseUrl: '/js',
+        paths: {
+            systemConfig: 'super/system/systemConfig'
+        },
+        loadContainer: '#ngView',
+        deps: ['systemConfig']
+    });
+</script>

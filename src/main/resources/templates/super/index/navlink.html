@@ -1,0 +1,9 @@
+<ol class="breadcrumb">
+    <%if(adminSession.shopId === 'SYSTEM'){%>
+    <li><a href="home"><i class="fa fa-home fa-lg fa-vertical-1x"></i> <%=CGlobal.serverLang('主页')%></a></li>
+    <%}else{%>
+    <li><a href="shopDetail/<%=adminSession.shopId%>"><i class="fa fa-home fa-lg fa-vertical-1x"></i> <%=adminSession.shopName%></a></li>
+    <%}%>
+    <li ng-repeat="value in liList"><a href="{{value.url}}">{{value.desc}}</a></li>
+    <li class="active">{{activeLink}}</li>
+</ol>

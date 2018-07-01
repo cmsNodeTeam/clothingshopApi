@@ -25,13 +25,16 @@ public class ApiConfiguration extends WebMvcConfigurationSupport{
 
       registry.addResourceHandler("/webjars/**")
               .addResourceLocations("classpath:/META-INF/resources/webjars/");
+      
+      registry.addResourceHandler("/static/**")
+      		  .addResourceLocations("classpath:/static/");
   }
 	
 	@Bean
-	public Docket createRestApi() {
-		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
-				.apis(RequestHandlerSelectors.basePackage("com.dev.api.controller")).paths(PathSelectors.any())
-				.build();
+	public Docket createLoginApi() {
+		return new Docket(DocumentationType.SWAGGER_2).groupName("Login").forCodeGeneration(true)
+				.apiInfo(apiInfo()).select().apis(RequestHandlerSelectors.basePackage("com.dev.api.controller.login.rest"))
+				.paths(PathSelectors.any()).build();
 	}
 
 	// 构建API文档的详细信息函数

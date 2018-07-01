@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title><%=CGlobal.serverLang('衣购商城后台--管理')%></title>
+    <% include ../../public/header.html%>
+</head>
+<body class="hold-transition sidebar-mini fixed">
+    <div class="wrapper" ng-app="appCMS" style="padding-bottom: 20px;">
+        <% include ../public/navBar.html%>
+        <% include ../public/sideBar.html%>
+        <div id="ngView" ng-view></div>
+        <% include ./footer.html%>
+        <% include ../public/confirmModal.html%>
+    </div>
+    <fieldset class="hidden" id="_parameters">
+        <input type="hidden" title="loggedInUser" value="<%=adminSession.adminId%>">
+        <%if(CGlobal.isPermission(adminSession.rights,CGlobal.Rights.deleteSYSUser.code)){%>
+        <input type="hidden" title="DR_User" value="1"><%#删除用户权限%>
+        <%}%>
+    </fieldset>
+    <% include ../../public/body.html%>
+    <script src="/js/requirejs/requirejs.min.js" defer async="true"></script>
+    <script src="/js/super/index.js"></script>
+    <script src="/js/super/services.js"></script>
+    <script src="/js/super/filters.js"></script>
+    <script src="/js/super/cmsApp.js"></script>
+    <script src="/js/super/controllers.js"></script>
+</body>
+</html>

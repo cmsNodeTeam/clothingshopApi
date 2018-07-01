@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app="ngTest">
+<head>
+    <meta name="content-type" content="text/html;charset=UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title localize>Angular 翻译视图</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/AdminLTE.fonts.min.css">
+    <link rel="stylesheet" href="/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="/css/AdminLTE.SansProFonts.css">
+    <script src="/js/jquery/jquery.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/adminLTE/app.min.js"></script>
+    <script src="/js/angular/angular.min.js"></script>
+    <script src="/js/angular/angular-sanitize.js"></script>
+    <script src="/js/angular/angular-localize.min.js"></script>
+    <script src="/js/angular/angular-cookie.min.js"></script>
+    <script src="/js/ng/ngMain.js"></script>
+</head>
+<body>
+    <div class="content" ng-controller="ngExample">
+        <div class="input-group">
+            <input type="text" class="form-control" ng-model="name">
+            <span class="input-group-addon">{{test()}}</span>
+        </div>
+        <span localize>Angular 翻译视图</span>
+        <input localize-placeholder="输入框提示" ng-model="text">
+        <label localize-title="span提示" localize>我是提示</label>
+        <span>{{text}}</span>
+        <select ng-change="changeLanguage()" ng-model="lang">
+            <option value="CN">中文</option>
+            <option value="EN">English</option>
+        </select>
+        <span>{{content}}</span>
+    </div>
+</body>
+</html>

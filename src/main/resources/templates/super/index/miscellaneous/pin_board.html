@@ -1,0 +1,36 @@
+<div class="content-wrapper">
+    <section class="content-header" style="background: white;padding-bottom: 10px">
+        <h1>
+            <%=CGlobal.serverLang('便利贴')%>
+        </h1>
+        <breadcrumb></breadcrumb>
+    </section>
+
+    <section class="content" ng-controller="pinBoardCtrl">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="wrapper wrapper-content animated fadeInUp">
+                    <ul class="notes" ng-repeat="note in notes">
+                        <li>
+                            <div>
+                                <small>{{note.date}}</small>
+                                <h4>{{note.title}}</h4>
+                                <p>{{note.content}}</p>
+                                <span class="notes-footer">
+                                    <a href="javascript:void(0)" title="<%=CGlobal.serverLang('删除')%>"
+                                       data-toggle="tooltip" ng-click="deleteNote($index, note)"><i class="fa fa-trash-o text-danger"></i></a>
+                                    <a href="javascript:void(0)" title="<%=CGlobal.serverLang('复制')%>"
+                                       data-toggle="tooltip" ng-click="copyNote(note)"><i class="fa fa-copy text-black"></i></a>
+                                    <a href="javascript:void(0)" title="<%=CGlobal.serverLang('编辑')%>"
+                                       data-toggle="tooltip" ng-click="modifyNote(note)"><i class="fa fa-edit text-black"></i></a>
+                                    <a href="javascript:void(0)" title="<%=CGlobal.serverLang('添加')%>"
+                                       data-toggle="tooltip" ng-click="addNote()"><i class="fa fa-plus-square-o text-black"></i></a>
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

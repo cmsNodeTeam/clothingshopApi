@@ -1,0 +1,148 @@
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            <%=CGlobal.serverLang('测试页面1')%>
+        </h1>
+        <breadcrumb></breadcrumb>
+    </section>
+
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"><%=CGlobal.serverLang('选择框例子')%></h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <label><%=CGlobal.serverLang('原生选择框')%></label>
+                        <select class="form-control select2" id="select1">
+                        </select>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <label><%=CGlobal.serverLang('原生选择框(默认被选中)')%></label>
+                        <select class="form-control select2" id="select2">
+                        </select>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <label><%=CGlobal.serverLang('原生选择框(Disabled)')%></label>
+                        <select class="form-control select2" disabled>
+                        </select>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <label>Select2<%=CGlobal.serverLang('插件')%></label>
+                        <select class="form-control select2" id="select3">
+                        </select>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <label>Select2<%=CGlobal.serverLang('任意多选')%></label>
+                        <select class="form-control select2" id="select4">
+                        </select>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <label>Select2<%=CGlobal.serverLang('最多3个')%></label>
+                        <select class="form-control select2" id="select5">
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <label>Select2<%=CGlobal.serverLang('可输可选')%></label>
+                        <select class="form-control select2" id="select6">
+                        </select>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <label>Select2<%=CGlobal.serverLang('提示加可清除')%></label>
+                        <select class="form-control select2" id="select7">
+                        </select>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <label>Select2<%=CGlobal.serverLang('样式1')%></label>
+                        <select class="form-control select2" id="select8">
+                        </select>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <label>Select2<%=CGlobal.serverLang('样式2')%></label>
+                        <select class="form-control select2" id="select9">
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <label>Select2<%=CGlobal.serverLang('官网例子')%></label>
+                        <select class="form-control select2" id="select10">
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <label>Select2<%=CGlobal.serverLang('改造自动补齐插件')%></label>
+                        <select class="form-control select2" id="select11">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <span id="printResult"></span>
+            </div>
+        </div>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"><%=CGlobal.serverLang('自动补齐例子')%></h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <label><%=CGlobal.serverLang('例子1')%></label>
+                        <input class="form-control" id="comp1">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"><%=CGlobal.serverLang('获取Server.log')%></h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <textarea class="col-xs-12" style="min-height: 300px" id="logText"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button class="btn btn-flat btn-primary" id="getLog"><%=CGlobal.serverLang('获取')%></button>
+                <button class="btn btn-flat btn-primary" id="downLog1"><%=CGlobal.serverLang('下载1')%></button>
+                <button class="btn btn-flat btn-primary" id="downLog2"><%=CGlobal.serverLang('下载2')%></button>
+                <button class="btn btn-flat btn-primary" id="downLog3"><%=CGlobal.serverLang('下载3')%></button>
+                <button class="btn btn-flat btn-primary" id="downLog4"><%=CGlobal.serverLang('下载4')%></button>
+            </div>
+        </div>
+    </section>
+</div>
+<link rel="stylesheet" href="/css/web/example.css">
+<script>
+    requirejs.undef("example1");
+    requirejs.config({
+        baseUrl:'/js',
+        paths:{
+            example1:'super/example/example1',
+            select2Object:'super/example/select2',
+            downloadObj:'super/example/download'
+        },
+        deps:['example1'],
+        loadContainer:'#ngView',
+    });
+</script>

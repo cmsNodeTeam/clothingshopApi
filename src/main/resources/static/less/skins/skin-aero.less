@@ -1,0 +1,66 @@
+/*
+ * Skin: Aero
+ * ------------
+ */
+@import "../bootstrap-less/mixins.less";
+@import "../bootstrap-less/variables.less";
+@import "variables.less";
+@import "mixins.less";
+@import "skin-common.less";
+
+@aero:#9CC2CB;
+
+.skin-aero {
+  //Navbar
+  .main-header {
+    .navbar {
+      .navbar-variant(@aero; #fff);
+      .sidebar-toggle {
+        color: #fff;
+        &:hover {
+          background-color: darken(@aero, 5%);
+        }
+      }
+      @media (max-width: @screen-header-collapse) {
+        .dropdown-menu {
+          li {
+            &.divider {
+              background-color: rgba(255, 255, 255, 0.1);
+            }
+            a {
+              color: #fff;
+              &:hover {
+                background: darken(@aero, 5%);
+              }
+            }
+          }
+        }
+      }
+    }
+    //Logo
+    .logo {
+      .logo-variant(darken(@aero, 5%));
+    }
+
+    li.user-header {
+      background-color: @aero;
+    }
+  }
+
+  //Content Header
+  .content-header {
+    background: transparent;
+  }
+
+  //Create the sidebar skin
+  .skin-dark-sidebar(@aero);
+  
+  .skin-common(@aero);
+}
+
+.aero-skin{
+  background: @aero;
+  &:hover{
+    background: darken(@aero, 5%);
+  }
+}

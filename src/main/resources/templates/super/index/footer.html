@@ -1,0 +1,12 @@
+<footer class="main-footer navbar-fixed-bottom" ng-controller="footerCtrl"><%#navbar-fixed-bottom%>
+    <strong>Copyright &copy; <%=CGlobal.aboutCMS.Copyright%> <a href="/super/aboutCMS" target="_blank">
+        <%=CGlobal.aboutCMS.author%> <%=CGlobal.serverLang('工作室')%></a>.
+    </strong>
+    <%=CGlobal.serverLang('版权所有')%>
+    <div class="pull-right skin-btn">
+        <button ng-repeat="(key,value) in skinList" class="btn btn-flat" ng-class="key+'-skin'"
+            ng-click="changeSkin('skin-'+key)" title="{{value}}"
+                data-toggle="tooltip"></button>
+        <b><%=CGlobal.serverLang('版本')%></b> <%=CGlobal.aboutCMS.version%>
+    </div>
+</footer>

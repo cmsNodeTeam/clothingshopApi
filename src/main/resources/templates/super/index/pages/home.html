@@ -1,0 +1,13 @@
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            <%if(adminSession.shopId === 'SYSTEM'){%>
+                <%=CGlobal.serverLang('主页')%>
+            <%}else{%>
+                <%=adminSession.shopName%>
+            <%}%>
+        </h1>
+    </section>
+    <section class="content">
+    </section>
+</div>

@@ -1,0 +1,124 @@
+<aside class="main-sidebar">
+    <section class="sidebar" ng-controller="sideBarCtrl">
+        <ul class="sidebar-menu" data-widget="tree">
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="<%=adminSession.userImg%>" class="img-circle" alt="User Image">
+                </div>
+                <div class="pull-left info">
+                    <p><%=adminSession.adminId%></p>
+                    <a href="javascript:void(0);"><i class="fa fa-circle text-success"></i> Online</a>
+                </div>
+            </div>
+            <li class="header"><%=CGlobal.serverLang('主导航')%></li>
+            <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-home"></i> <span><%=CGlobal.serverLang('前台管理')%></span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="javascript:void(0)"><i class="fa fa-circle-o"></i><%=CGlobal.serverLang('店铺管理')%></a></li>
+                    <li><a href="javascript:void(0)"><i class="fa fa-circle-o"></i><%=CGlobal.serverLang('服装管理')%></a></li>
+                    <li><a href="javascript:void(0)"><i class="fa fa-circle-o"></i><%=CGlobal.serverLang('分类管理')%></a></li>
+                    <li><a href="javascript:void(0)"><i class="fa fa-circle-o"></i><%=CGlobal.serverLang('订单管理')%></a></li>
+                </ul>
+            </li>
+            <%if(CGlobal.isPermission(adminSession.rights,CGlobal.Rights.LogsManager.code)){%>
+            <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-book"></i> <span><%=CGlobal.serverLang('日志管理_h')%></span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <%if(CGlobal.isPermission(adminSession.rights,CGlobal.Rights.UserAccessLogs.code)){%>
+                    <li><a href="javascript:void(0)"><i class="fa fa-circle-o"></i><%=CGlobal.serverLang('用户访问日志_h')%></a></li>
+                    <%}%>
+                    <%if(CGlobal.isPermission(adminSession.rights,CGlobal.Rights.UserLogs.code)){%>
+                    <li><a href="userLogs"><i class="fa fa-circle-o"></i><%=CGlobal.serverLang('用户操作日志_h')%></a></li>
+                    <%}%>
+                    <%if(CGlobal.isPermission(adminSession.rights,CGlobal.Rights.ServerLogs.code)){%>
+                    <li><a href="serverLogs"><i class="fa fa-circle-o"></i><%=CGlobal.serverLang('服务器日志_h')%></a></li>
+                    <%}%>
+                </ul>
+            </li>
+            <%}%>
+            <%if(CGlobal.isPermission(adminSession.rights,CGlobal.Rights.OtherSetup.code)){%>
+            <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-gears"></i> <span><%=CGlobal.serverLang('其他设置')%></span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <%if(CGlobal.isPermission(adminSession.rights,CGlobal.Rights.SupplierSetup.code)){%>
+                    <li><a href="javascript:void(0)"><i class="fa fa-circle-o"></i><%=CGlobal.serverLang('供应商设置')%></a></li>
+                    <%}%>
+                    <%if(CGlobal.isPermission(adminSession.rights,CGlobal.Rights.UserSetup.code)){%>
+                    <li>
+                        <a href="userSetup"><i class="fa fa-user-plus"></i>
+                            <%=CGlobal.serverLang('用户设置')%><span>Ctrl+U</span>
+                        </a>
+                    </li>
+                    <%}%>
+                    <%if(CGlobal.isPermission(adminSession.rights,CGlobal.Rights.RightsSetup.code)){%>
+                    <li><a href="rightsSetup"><i class="fa fa-circle-o"></i><%=CGlobal.serverLang('权限设置')%><span>Ctrl+R</span></a></li>
+                    <%}%>
+                    <%if(CGlobal.isPermission(adminSession.rights,CGlobal.Rights.SystemSetup.code)){%>
+                    <li><a href="systemConfig"><i class="fa fa-circle-o"></i><%=CGlobal.serverLang('系统数据设置')%></a></li>
+                    <%}%>
+                    <%if(CGlobal.isPermission(adminSession.rights,CGlobal.Rights.RepairData.code)){%>
+                    <li><a href="javascript:void(0)"><i class="fa fa-circle-o"></i><%=CGlobal.serverLang('修复数据')%></a></li>
+                    <%}%>
+                </ul>
+            </li>
+            <%}%>
+            <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-bar-chart"></i> <span><%=CGlobal.serverLang('数据统计')%></span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="javascript:void(0)"><i class="fa fa-circle-o"></i><%=CGlobal.serverLang('订单统计')%></a></li>
+                    <li><a href="javascript:void(0)"><i class="fa fa-circle-o"></i><%=CGlobal.serverLang('收益统计')%></a></li>
+                </ul>
+            </li>
+            <%if(CGlobal.isPermission(adminSession.rights,CGlobal.Rights.Miscellaneous.code)){%>
+            <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-cog"></i> <span><%=CGlobal.serverLang('杂项')%></span>
+                    <span class="pull-right-container">
+              <small class="label pull-right bg-blue">NEW</small>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <%if(CGlobal.isPermission(adminSession.rights,CGlobal.Rights.AgileBoard.code)){%>
+                    <li><a href="agile_board"><i class="fa fa-circle-o"></i><%=CGlobal.serverLang('敏捷工作')%></a></li>
+                    <%}%>
+                    <%if(CGlobal.isPermission(adminSession.rights,CGlobal.Rights.PinBoard.code)){%>
+                    <li><a href="pin_board"><i class="fa fa-circle-o"></i><%=CGlobal.serverLang('便利贴')%></a></li>
+                    <%}%>
+                </ul>
+            </li>
+            <%}%>
+            <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-gg"></i> <span><%=CGlobal.serverLang('功能测试')%></span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="example/1"><i class="fa fa-circle-o"></i><%=CGlobal.serverLang('例子1')%></a></li>
+                    <li><a href="example/2"><i class="fa fa-circle-o"></i><%=CGlobal.serverLang('例子2')%></a></li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+</aside>

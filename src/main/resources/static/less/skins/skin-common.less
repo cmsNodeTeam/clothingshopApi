@@ -1,0 +1,171 @@
+.skin-common(@skin-color) {
+  .wrapper {
+    background-color: #ecf0f5;
+  }
+
+  .spin-icon {
+    background: @skin-color;
+  }
+
+  .dropdown-menu {
+    > li {
+      > a {
+        &:hover,
+        &:focus {
+          color: #fff;
+          text-decoration: none;
+          background-color: @skin-color;
+          outline: 0
+        }
+        &:focus {
+          span {
+            color: #fff;
+          }
+        }
+        &:hover {
+          span {
+            color: #fff;
+          }
+        }
+      }
+      span {
+        color: @skin-color;
+      }
+    }
+    .active {
+      > a {
+        background-color: darken(@skin-color, 10%);
+      }
+    }
+  }
+
+  .bs-class {
+    .layui-layer-btn {
+      a:hover {
+        background-color: darken(@skin-color, 5%);
+      }
+      a {
+        color: #fff;
+        background-color: @skin-color;
+      }
+    }
+  }
+
+  .fixed-table-container {
+    tbody {
+      .selected {
+        td {
+          color: #fff;
+          background-color: @skin-color;
+          >a {
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+
+  .pagination {
+    > .active {
+      > a,
+      > a:hover {
+        background-color: @skin-color;
+        border-color: @skin-color;
+      }
+    }
+  }
+
+  .table {
+    > tbody {
+      > tr {
+        > td {
+          border-top: 1px solid @skin-color;
+        }
+      }
+    }
+  }
+
+  .login-btn {
+    background-color: @skin-color;
+    &:hover {
+      color: @skin-color;
+      background: #ccc;
+    }
+  }
+
+  .nav-tabs-custom {
+    > .nav-tabs {
+      > li.active {
+        border-top-color: @skin-color;
+      }
+      > li {
+        &:not(.active) {
+          &:hover {
+            border-top-color: @skin-color;
+          }
+          > a:hover,
+          > a:focus,
+          > a:active {
+            border-color: transparent;
+            color: #fff;
+            background-color: fadeout(@skin-color, 40%);
+          }
+        }
+      }
+
+    }
+  }
+
+  .table-hover {
+    > tbody > tr:hover {
+      color: #fff;
+      background-color: fadeout(@skin-color, 40%);
+      td >a {
+        color: #fff;
+      }
+    }
+  }
+
+  .sk-spinner-fading-circle {
+    .sk-circle {
+      &:before {
+        background-color: @skin-color;
+      }
+    }
+  }
+
+  .keep-open {
+    .columns {
+      label{
+        &:hover {
+          background-color: @skin-color;
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  input[type=checkbox] + label,
+  input[type=radio] + label{
+    &:before{
+      border: 1px solid #d2d6de;
+    }
+    &:hover{
+      &:before{
+        border: 1px solid @skin-color;
+      }
+    }
+  }
+
+  .log-list {
+    border-left: 2px solid @skin-color;
+    .tools {
+      color: @skin-color;
+    }
+  }
+
+  .input-underline{
+    border: 0;
+    border-bottom: 2px solid @skin-color;
+  }
+}

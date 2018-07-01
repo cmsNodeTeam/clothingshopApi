@@ -1,0 +1,40 @@
+<!--登录框-->
+<div class="login-box">
+    <div class="box box-flat animated fadeInDown">
+        <div class="box-header with-border">
+            <h1 class="box-title"><%=CGlobal.serverLang('衣购商城管理系统')%></h1>
+            /<small>&nbsp;<%=CGlobal.serverLang('登录')%></small>
+        </div>
+        <div class="box-body">
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" placeholder="<%=CGlobal.serverLang('用户ID,邮箱地址')%>" id="inputAdminId">
+                <span class="fa fa-lg fa-user form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" class="form-control" placeholder="<%=CGlobal.serverLang('密码')%>" id="inputAdminPws">
+                <span class="fa fa-lg fa-key form-control-feedback"></span>
+            </div>
+            <div class="margin-b-5 has-feedback">
+                <select class="form-control" id="selectLang">
+                    <option value="CN">简体中文</option>
+                    <option value="EN">English</option>
+                </select>
+                <span class="fa fa-lg fa-font form-control-feedback"></span>
+            </div>
+            <div class="margin-b-5 row">
+                <div class="col-xs-6 icheck-group">
+                    <input type="checkbox" id="remember">
+                    <label for="remember"><%=CGlobal.serverLang('记住用户名')%></label>
+                </div>
+                <div class="col-xs-6">
+                    <div class="padding-tb-7 text-right">
+                        <a href="javascript:void(0);" id="forgetLink"><%=CGlobal.serverLang('忘记密码')%></a>
+                    </div>
+                </div>
+            </div>
+            <button class="login-btn" title="<%=CGlobal.serverLang('登录')%>"
+                    id="login"> <span class="fa fa-lg fa-sign-in"></span>&nbsp;
+                <%=CGlobal.serverLang('登{0}录',' ')%></button>
+        </div>
+    </div>
+</div>

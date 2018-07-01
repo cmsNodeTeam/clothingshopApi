@@ -1,4 +1,4 @@
-package com.dev.api.controller.login;
+package com.dev.api.controller.login.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
