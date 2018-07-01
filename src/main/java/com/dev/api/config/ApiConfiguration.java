@@ -1,8 +1,12 @@
 package com.dev.api.config;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,10 +16,13 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import com.dev.api.interceptor.ApiInterceptor;
 import com.dev.api.interceptor.GlobalInterceptor;
 import com.dev.api.interceptor.WebInterceptor;
+import com.dev.api.util.GlobalStatus;
+import com.dev.api.util.RightsCode;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
@@ -35,6 +42,16 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 public class ApiConfiguration extends WebMvcConfigurationSupport {
 
+	@Resource
+    private void configureThymeleafStaticVars(ThymeleafViewResolver viewResolver) {
+        if(viewResolver != null) {
+            Map<String, Object> vars = new HashMap<>();
+            vars.put("globals", new GlobalStatus());
+            vars.put("rights", new RightsCode());
+            viewResolver.setStaticVariables(vars);
+        }
+    }
+	
 	@Override
     public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new ApiInterceptor()).addPathPatterns("/api/*/**");
