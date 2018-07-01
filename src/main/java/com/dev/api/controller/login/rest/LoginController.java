@@ -15,13 +15,13 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(tags = "Login API interface", description = "Login API")
 @RestController
-@RequestMapping(value = "api/user")
+@RequestMapping(value = "/api/user")
 public class LoginController {
 	@Autowired
 	private ILoginService loginService;
 
 	@ApiOperation(value = "Login system", notes = "User login system")
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public Resp_Login userLogin(@RequestBody Req_Login login) {
 		return loginService.userLogin(login);
 	}
