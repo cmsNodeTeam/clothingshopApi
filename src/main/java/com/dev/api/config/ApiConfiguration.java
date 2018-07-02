@@ -134,12 +134,12 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 		ParameterBuilder idHeader = new ParameterBuilder();
 		idHeader.name("id").description("username")
 			.modelRef(new ModelRef("string")).parameterType("header")
-			.required(true).build();
+			.defaultValue("TEST").required(true).build();
 		
 		ParameterBuilder keyHeader = new ParameterBuilder();
 		keyHeader.name("key").description("password")
 			.modelRef(new ModelRef("string")).parameterType("header")
-			.required(true).build();
+			.defaultValue("123456").required(true).build();
 		
 		ParameterBuilder languageHeader = new ParameterBuilder();
 		languageHeader.name("language").description("user language")
@@ -149,12 +149,12 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 		ParameterBuilder shopidHeader = new ParameterBuilder();
 		shopidHeader.name("shopid").description("shop id")
 			.modelRef(new ModelRef("string")).parameterType("header")
-			.required(true).build();
+			.defaultValue("1").required(true).build();
 		
 		ParameterBuilder cmsHeader = new ParameterBuilder();
 		cmsHeader.name("cms-interface").description("cms interface flag")
 			.modelRef(new ModelRef("string")).parameterType("header")
-			.required(true).build();
+			.defaultValue("CMS-Interface").required(true).build();
 
 		headersParams.add(idHeader.build());
 		headersParams.add(keyHeader.build());

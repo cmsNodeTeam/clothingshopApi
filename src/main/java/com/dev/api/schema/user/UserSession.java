@@ -30,4 +30,14 @@ public class UserSession {
 		this.rights = rights;
 	}
 	
+	public boolean isSupervisor() {
+		if(this.username == null) {
+			return false;
+		}
+		if(this.username.equals("SUPERVISOR") || this.rights.equals("ALL")) {
+			return true;
+		}
+		return false;
+	}
+	
 }

@@ -7,6 +7,9 @@ import io.swagger.annotations.ApiModelProperty;
 public class Resp_Login {
 	@ApiModelProperty(value = "session")
 	private String session;
+	
+	@ApiModelProperty(value = "username")
+	private String username;
 
 	public String getSession() {
 		return session;
@@ -15,5 +18,14 @@ public class Resp_Login {
 	public void setSession(String session) {
 		this.session = session;
 	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
 	
 }
