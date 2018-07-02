@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -81,7 +82,7 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 	@Bean
 	public Docket createLoginApi() {
 		return new Docket(DocumentationType.SWAGGER_2).groupName("Login").forCodeGeneration(true).apiInfo(apiInfo())
-				.select().apis(RequestHandlerSelectors.basePackage("com.dev.api.controller.login.rest"))
+				.select().apis(RequestHandlerSelectors.basePackage("com.dev.api.controller.login"))
 				.paths(PathSelectors.any()).build().globalResponseMessage(RequestMethod.GET, customizeResponseMessage())
 				.globalResponseMessage(RequestMethod.POST, customizeResponseMessage())
 				.globalOperationParameters(getHeadersParameter());
@@ -161,5 +162,11 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 		headersParams.add(shopidHeader.build());
 		headersParams.add(cmsHeader.build());
 		return headersParams;
+	}
+	
+	@Override
+	protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+		// TODO Auto-generated method stub
+		super.extendMessageConverters(converters);
 	}
 }
