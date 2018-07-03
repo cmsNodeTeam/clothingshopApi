@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -23,7 +24,9 @@ import com.dev.api.interceptor.ApiInterceptor;
 import com.dev.api.interceptor.GlobalInterceptor;
 import com.dev.api.interceptor.WebInterceptor;
 import com.dev.api.util.GlobalStatus;
+import com.dev.api.util.JsonUtils;
 import com.dev.api.util.RightsCode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
@@ -166,7 +169,11 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 	
 	@Override
 	protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-		// TODO Auto-generated method stub
-		super.extendMessageConverters(converters);
+		converters.stream().filter((c) -> c instanceof AbstractJackson2HttpMessageConverter)
+			.forEach((c) -> {
+				ObjectMapper mapper = JsonUtils.getMapper();
+				((AbstractJackson2HttpMessageConverter)c).setObjectMapper(mapper);
+		});
 	}
+	
 }
