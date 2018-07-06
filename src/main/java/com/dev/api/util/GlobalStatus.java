@@ -4,6 +4,10 @@ import com.dev.api.schema.user.UserSession;
 
 public class GlobalStatus {
 	public static boolean isPermission(int rights) {
+		return isPermission(String.valueOf(rights));
+	}
+	
+	public static boolean isPermission(String rights) {
 		if(getUserSession().isSupervisor()) {
 			return true;
 		}
