@@ -37,6 +37,7 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.schema.ModelRef;
+import springfox.documentation.service.AllowableListValues;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.Parameter;
@@ -163,9 +164,13 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 			.defaultValue(ifcConfig.getPassword()).required(true).build();
 		
 		ParameterBuilder languageHeader = new ParameterBuilder();
+		List<String> languageList = new ArrayList<>();
+		languageList.add("EN");
+		languageList.add("CN");
+		AllowableListValues languageAllow = new AllowableListValues(languageList, "string");
 		languageHeader.name("language").description("user language")
 			.modelRef(new ModelRef("string")).parameterType("header")
-			.required(false).build();
+			.required(false).allowableValues(languageAllow).build();
 		
 		ParameterBuilder shopidHeader = new ParameterBuilder();
 		shopidHeader.name("shopid").description("shop id")
