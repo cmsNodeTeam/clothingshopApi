@@ -21,7 +21,7 @@ public class ConfigController {
 
 	@ApiOperation(value = "系统配置接口", notes = "查询系统配置列表")
 	@PostMapping("query")
-	public Resp_ConfigQuery getConfigList(@RequestBody Req_ConfigQuery groupName) {
-		return configService.getConfigList(groupName);
+	public Resp_ConfigQuery getConfigList(@RequestBody Req_ConfigQuery query) {
+		return configService.getConfigList(query);
 	}
 }

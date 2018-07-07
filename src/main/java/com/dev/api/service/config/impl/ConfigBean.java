@@ -1,18 +1,24 @@
 package com.dev.api.service.config.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dev.api.schema.config.UrlEnum;
 import com.dev.api.schema.config.req.Req_ConfigQuery;
 import com.dev.api.schema.config.resp.Resp_ConfigQuery;
 import com.dev.api.service.config.IConfigService;
+import com.dev.api.util.ApiHttpClient;
 
 @Service
 public class ConfigBean implements IConfigService{
 
+	@Autowired
+	private ApiHttpClient httpClient;
+	
 	@Override
 	public Resp_ConfigQuery getConfigList(Req_ConfigQuery params) {
-		Resp_ConfigQuery list = new Resp_ConfigQuery();
-		return list;
+		return httpClient.post(UrlEnum.CONFIG, params
+				, Resp_ConfigQuery.class, "search");
 	}
 
 }

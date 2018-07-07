@@ -5,6 +5,9 @@ import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "ConfigQuery", description = "查询系统配置")
 public class Req_ConfigQuery {
+	@ApiModelProperty(value = "配置Key", required = true)
+	private String key;
+	
 	@ApiModelProperty(value = "配置组名", required = false)
 	private String groupName;
 
@@ -14,6 +17,14 @@ public class Req_ConfigQuery {
 
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
 	}
 
 	

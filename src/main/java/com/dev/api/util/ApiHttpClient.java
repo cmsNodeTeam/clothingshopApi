@@ -22,8 +22,14 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.dev.api.schema.config.CmsApiConfig;
+import com.dev.api.schema.config.UrlEnum;
+
 @Component
 public class ApiHttpClient {
+	
+	@Autowired
+	private CmsApiConfig apiConfig;
 	
 	@Autowired
 	private RestTemplate restTemplate;
@@ -43,6 +49,14 @@ public class ApiHttpClient {
 		return new RestTemplate(httpFactory);
 	}
 	
+	private String getUrl(String path) {
+		String url = apiConfig.getDomain();
+		if(path.startsWith("/")) {
+			return url + path;
+		}
+		return url + "/" + path;
+	}
+	
 	private HttpHeaders getHeaders(){
 		HttpHeaders apiHeaders = ServiceReferenceContext.getApiHeaders();
 		HttpHeaders headers = new HttpHeaders();
@@ -52,7 +66,14 @@ public class ApiHttpClient {
 		return headers;
 	}
 	
-	public <T> T post(String url, @Nullable Object body, Class<T> responseType, Object... uriVariables) {
+	public <T> T post(UrlEnum urlEnum, @Nullable Object body, Class<T> responseType, Object... uriVariables) {
+		String path = (String) apiConfig.getUrl().get(urlEnum.toString());
+		String url = getUrl(path);
+		return postSet(url, body, responseType, uriVariables).getBody();
+	}
+	
+	public <T> T post(String path, @Nullable Object body, Class<T> responseType, Object... uriVariables) {
+		String url = getUrl(path);
 		return postSet(url, body, responseType, uriVariables).getBody();
 	}
 	
