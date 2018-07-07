@@ -11,7 +11,7 @@ public class Resp_ConfigQuery {
 	private Integer code;
 	
 	@ApiModelProperty(value = "response message", required = false)
-	private Integer msg;
+	private String msg;
 	
 	@ApiModelProperty(value = "configuration", required = true)
 	private SystemConfig config;
@@ -32,11 +32,11 @@ public class Resp_ConfigQuery {
 		this.config = config;
 	}
 
-	public Integer getMsg() {
+	public String getMsg() {
 		return msg;
 	}
 
-	public void setMsg(Integer msg) {
+	public void setMsg(String msg) {
 		this.msg = msg;
 	}
 	
