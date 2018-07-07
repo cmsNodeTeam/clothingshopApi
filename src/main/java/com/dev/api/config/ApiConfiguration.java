@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -23,6 +24,8 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import com.dev.api.interceptor.ApiInterceptor;
 import com.dev.api.interceptor.GlobalInterceptor;
 import com.dev.api.interceptor.WebInterceptor;
+import com.dev.api.schema.config.CmsApiConfig;
+import com.dev.api.schema.config.CmsIfcConfig;
 import com.dev.api.util.GlobalStatus;
 import com.dev.api.util.JsonUtils;
 import com.dev.api.util.RightsCode;
@@ -46,6 +49,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 public class ApiConfiguration extends WebMvcConfigurationSupport {
 
+	@Autowired
+	private CmsIfcConfig ifcConfig;
+	
+	@Autowired
+	private CmsApiConfig apiConfig;
+	
 	@Resource
     private void configureThymeleafStaticVars(ThymeleafViewResolver viewResolver) {
         if(viewResolver != null) {
@@ -86,6 +95,15 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 	public Docket createLoginApi() {
 		return new Docket(DocumentationType.SWAGGER_2).groupName("Login").forCodeGeneration(true).apiInfo(apiInfo())
 				.select().apis(RequestHandlerSelectors.basePackage("com.dev.api.controller.login"))
+				.paths(PathSelectors.any()).build().globalResponseMessage(RequestMethod.GET, customizeResponseMessage())
+				.globalResponseMessage(RequestMethod.POST, customizeResponseMessage())
+				.globalOperationParameters(getHeadersParameter());
+	}
+	
+	@Bean
+	public Docket createConfigApi() {
+		return new Docket(DocumentationType.SWAGGER_2).groupName("Config").forCodeGeneration(true).apiInfo(apiInfo())
+				.select().apis(RequestHandlerSelectors.basePackage("com.dev.api.controller.config"))
 				.paths(PathSelectors.any()).build().globalResponseMessage(RequestMethod.GET, customizeResponseMessage())
 				.globalResponseMessage(RequestMethod.POST, customizeResponseMessage())
 				.globalOperationParameters(getHeadersParameter());
@@ -137,12 +155,12 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 		ParameterBuilder idHeader = new ParameterBuilder();
 		idHeader.name("id").description("username")
 			.modelRef(new ModelRef("string")).parameterType("header")
-			.defaultValue("TEST").required(true).build();
+			.defaultValue(ifcConfig.getUsername()).required(true).build();
 		
 		ParameterBuilder keyHeader = new ParameterBuilder();
 		keyHeader.name("key").description("password")
 			.modelRef(new ModelRef("string")).parameterType("header")
-			.defaultValue("123456").required(true).build();
+			.defaultValue(ifcConfig.getPassword()).required(true).build();
 		
 		ParameterBuilder languageHeader = new ParameterBuilder();
 		languageHeader.name("language").description("user language")
@@ -152,12 +170,12 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 		ParameterBuilder shopidHeader = new ParameterBuilder();
 		shopidHeader.name("shopid").description("shop id")
 			.modelRef(new ModelRef("string")).parameterType("header")
-			.defaultValue("1").required(true).build();
+			.defaultValue(ifcConfig.getShopid()).required(true).build();
 		
 		ParameterBuilder cmsHeader = new ParameterBuilder();
 		cmsHeader.name("cms-interface").description("cms interface flag")
 			.modelRef(new ModelRef("string")).parameterType("header")
-			.defaultValue("CMS-Interface").required(true).build();
+			.defaultValue(apiConfig.getHeader()).required(true).build();
 
 		headersParams.add(idHeader.build());
 		headersParams.add(keyHeader.build());
