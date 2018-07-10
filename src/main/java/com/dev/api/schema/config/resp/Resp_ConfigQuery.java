@@ -5,7 +5,7 @@ import com.dev.api.schema.config.SystemConfig;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel(value = "ConfigQueryResult", description = "查询系统配置集合")
+@ApiModel(value = "ConfigQueryResult", description = "查询系统配置列表")
 public class Resp_ConfigQuery {
 	@ApiModelProperty(value = "response code", required = true)
 	private Integer code;

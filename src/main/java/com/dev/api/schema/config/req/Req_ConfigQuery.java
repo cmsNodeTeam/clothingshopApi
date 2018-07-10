@@ -5,10 +5,10 @@ import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "ConfigQuery", description = "查询系统配置")
 public class Req_ConfigQuery {
-	@ApiModelProperty(value = "配置Key", required = true)
+	@ApiModelProperty(value = "系统配置的Key", required = true)
 	private String key;
 	
-	@ApiModelProperty(value = "配置组名", required = false)
+	@ApiModelProperty(value = "系统配置的组名", required = false)
 	private String groupName;
 
 	public String getGroupName() {

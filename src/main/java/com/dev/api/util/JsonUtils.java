@@ -25,10 +25,10 @@ public class JsonUtils {
 		mapper.setDateFormat(new SimpleDateFormat() {
 			@Override
 			public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition pos) {
-				return formatDate(date, toAppendTo, pos);
+				return localFormat(date, toAppendTo, pos);
 			}
 			
-			public synchronized StringBuffer formatDate(Date date, StringBuffer toAppendTo, FieldPosition pos) {
+			public synchronized StringBuffer localFormat(Date date, StringBuffer toAppendTo, FieldPosition pos) {
 				return super.format(date, toAppendTo, pos);
 			}
 		});

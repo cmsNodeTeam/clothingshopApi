@@ -35,7 +35,7 @@ public class ApiHttpClient {
 	private RestTemplate restTemplate;
 	
 	@Bean
-	public RestTemplate restTemplate() throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException {
+	public RestTemplate restTemplate() throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException{
 		TrustStrategy acceptsStrategy = (X509Certificate[] certs, String authType) -> true;
 		SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(acceptsStrategy).build();
 		CloseableHttpClient httpClient = HttpClients.custom()
