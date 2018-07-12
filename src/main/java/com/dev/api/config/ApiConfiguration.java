@@ -56,6 +56,10 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 	@Autowired
 	private CmsApiConfig apiConfig;
 	
+	private List<ResponseMessage> responseMessage;
+	
+	private List<Parameter> headerParameter;
+	
 	@Resource
     private void configureThymeleafStaticVars(ThymeleafViewResolver viewResolver) {
         if(viewResolver != null) {
@@ -129,21 +133,23 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 	 * @return
 	 */
 	private List<ResponseMessage> customizeResponseMessage() {
-		List<ResponseMessage> list = new ArrayList<ResponseMessage>();
+		if(responseMessage == null) {
+			responseMessage = new ArrayList<ResponseMessage>();
 
-		ResponseMessage message_404 = new ResponseMessageBuilder().code(CodeEnum.ERROR_404.getCode())
-				.message(CodeEnum.ERROR_404.getMsg()).build();
+			ResponseMessage message_404 = new ResponseMessageBuilder().code(CodeEnum.ERROR_404.getCode())
+					.message(CodeEnum.ERROR_404.getMsg()).build();
 
-		ResponseMessage message_500 = new ResponseMessageBuilder().code(CodeEnum.ERROR_500.getCode())
-				.message(CodeEnum.ERROR_500.getMsg()).build();
+			ResponseMessage message_500 = new ResponseMessageBuilder().code(CodeEnum.ERROR_500.getCode())
+					.message(CodeEnum.ERROR_500.getMsg()).build();
 
-		ResponseMessage message_null = new ResponseMessageBuilder().code(CodeEnum.ERROR_NULL.getCode())
-				.message(CodeEnum.ERROR_NULL.getMsg()).build();
+			ResponseMessage message_null = new ResponseMessageBuilder().code(CodeEnum.ERROR_NULL.getCode())
+					.message(CodeEnum.ERROR_NULL.getMsg()).build();
 
-		list.add(message_404);
-		list.add(message_500);
-		list.add(message_null);
-		return list;
+			responseMessage.add(message_404);
+			responseMessage.add(message_500);
+			responseMessage.add(message_null);
+		}
+		return responseMessage;
 	}
 
 	/**
@@ -151,48 +157,52 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 	 * @return
 	 */
 	private List<Parameter> getHeadersParameter() {
-		List<Parameter> headersParams = new ArrayList<Parameter>();
-		
-		ParameterBuilder idHeader = new ParameterBuilder();
-		idHeader.name("id").description("username")
-			.modelRef(new ModelRef("string")).parameterType("header")
-			.defaultValue(ifcConfig.getUsername()).required(true).build();
-		
-		ParameterBuilder keyHeader = new ParameterBuilder();
-		keyHeader.name("key").description("password")
-			.modelRef(new ModelRef("string")).parameterType("header")
-			.defaultValue(ifcConfig.getPassword()).required(true).build();
-		
-		ParameterBuilder languageHeader = new ParameterBuilder();
-		List<String> languageList = new ArrayList<>();
-		languageList.add("EN");
-		languageList.add("CN");
-		AllowableListValues languageAllow = new AllowableListValues(languageList, "string");
-		languageHeader.name("language").description("user language")
-			.modelRef(new ModelRef("string")).parameterType("header")
-			.required(false).allowableValues(languageAllow).build();
-		
-		ParameterBuilder shopidHeader = new ParameterBuilder();
-		shopidHeader.name("shopid").description("shop id")
-			.modelRef(new ModelRef("string")).parameterType("header")
-			.defaultValue(ifcConfig.getShopid()).required(true).build();
-		
-		ParameterBuilder cmsHeader = new ParameterBuilder();
-		cmsHeader.name("cms-interface").description("cms interface flag")
-			.modelRef(new ModelRef("string")).parameterType("header")
-			.defaultValue(apiConfig.getHeader()).required(true).build();
+		if(headerParameter == null) {
+			headerParameter = new ArrayList<Parameter>();
+			
+			ParameterBuilder idHeader = new ParameterBuilder();
+			idHeader.name("id").description("username")
+				.modelRef(new ModelRef("string")).parameterType("header")
+				.defaultValue(ifcConfig.getUsername()).required(true).build();
+			
+			ParameterBuilder keyHeader = new ParameterBuilder();
+			keyHeader.name("key").description("password")
+				.modelRef(new ModelRef("string")).parameterType("header")
+				.defaultValue(ifcConfig.getPassword()).required(true).build();
+			
+			ParameterBuilder languageHeader = new ParameterBuilder();
+			List<String> languageList = new ArrayList<>();
+			languageList.add("EN");
+			languageList.add("CN");
+			AllowableListValues languageAllow = new AllowableListValues(languageList, "string");
+			languageHeader.name("language").description("user language")
+				.modelRef(new ModelRef("string")).parameterType("header")
+				.required(false).allowableValues(languageAllow).build();
+			
+			ParameterBuilder shopidHeader = new ParameterBuilder();
+			shopidHeader.name("shopid").description("shop id")
+				.modelRef(new ModelRef("string")).parameterType("header")
+				.defaultValue(ifcConfig.getShopid()).required(true).build();
+			
+			ParameterBuilder cmsHeader = new ParameterBuilder();
+			cmsHeader.name("cms-interface").description("cms interface flag")
+				.modelRef(new ModelRef("string")).parameterType("header")
+				.defaultValue(apiConfig.getHeader()).required(true).build();
 
-		headersParams.add(idHeader.build());
-		headersParams.add(keyHeader.build());
-		headersParams.add(languageHeader.build());
-		headersParams.add(shopidHeader.build());
-		headersParams.add(cmsHeader.build());
-		return headersParams;
+			headerParameter.add(idHeader.build());
+			headerParameter.add(keyHeader.build());
+			headerParameter.add(languageHeader.build());
+			headerParameter.add(shopidHeader.build());
+			headerParameter.add(cmsHeader.build());
+		}
+		return headerParameter;
 	}
 	
 	@Override
 	protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-		converters.stream().filter((c) -> c instanceof AbstractJackson2HttpMessageConverter)
+		converters
+			.stream()
+			.filter((c) -> c instanceof AbstractJackson2HttpMessageConverter)
 			.forEach((c) -> {
 				ObjectMapper mapper = JsonUtils.getMapper();
 				((AbstractJackson2HttpMessageConverter)c).setObjectMapper(mapper);
