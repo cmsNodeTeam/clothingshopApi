@@ -85,7 +85,7 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 	public LocaleResolver localeResolver() {
 		CookieLocaleResolver cookieLocale = new CookieLocaleResolver();
 		// 默认语言
-		cookieLocale.setDefaultLocale(Locale.CHINA);
+		cookieLocale.setDefaultLocale(Locale.US);
 		cookieLocale.setCookieName("superLanguage");
 		cookieLocale.setCookieMaxAge(7 * 24 * 3600);
 		return cookieLocale;
