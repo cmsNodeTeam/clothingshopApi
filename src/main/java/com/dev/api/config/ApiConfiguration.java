@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -50,6 +51,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 public class ApiConfiguration extends WebMvcConfigurationSupport {
 
+	@Value("${server.servlet.context-path}")
+    private String cmsContextPath;
+	
 	@Autowired
 	private CmsIfcConfig ifcConfig;
 	
@@ -120,7 +124,7 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 				// 页面标题
 				.title("Clothes Shop RESTful API")
 				// 创建人
-				.contact(new Contact("Konami.wu", "http://cc:8000/superLogin", "Oliver.wu@shijigroup.com"))
+				.contact(new Contact("Konami.wu", "http://cc:8000"+ cmsContextPath +"/superLogin", "Oliver.wu@shijigroup.com"))
 				// 版本号
 				.version("1.0")
 				// 描述
