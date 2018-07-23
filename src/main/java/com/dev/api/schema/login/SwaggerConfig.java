@@ -17,8 +17,8 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix="swagger")
 public class SwaggerConfig {
 	public String version;
-	public List<String> user = new ArrayList<String>();
-	public Map<String, String> login = new HashMap<String, String>();
+	public List<String> user = new ArrayList<>();
+	public Map<String, String> login = new HashMap<>();
 	public String getVersion() {
 		return version;
 	}

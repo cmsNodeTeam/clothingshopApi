@@ -16,7 +16,7 @@ public class SwaggerService {
 	private SwaggerConfig config;
 	
 	public Map<String, Object> getSwaggerConfig(){
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("version", config.getVersion());
 		for (int i = 0; i < config.getUser().size(); i++) {
 			map.put("user[" + i + "]", config.getUser().get(i));

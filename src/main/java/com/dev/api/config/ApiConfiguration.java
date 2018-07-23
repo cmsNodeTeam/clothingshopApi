@@ -77,7 +77,7 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 	@Override
     public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new ApiInterceptor()).addPathPatterns("/api/*/**");
-		registry.addInterceptor(new WebInterceptor()).addPathPatterns("/super/web/*/**");
+		registry.addInterceptor(new WebInterceptor()).addPathPatterns("/web/*/**");
 		registry.addInterceptor(new GlobalInterceptor()).addPathPatterns("/*/**");
     }
 	
@@ -85,7 +85,7 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 	public LocaleResolver localeResolver() {
 		CookieLocaleResolver cookieLocale = new CookieLocaleResolver();
 		// 默认语言
-		cookieLocale.setDefaultLocale(Locale.US);
+		cookieLocale.setDefaultLocale(Locale.CHINA);
 		cookieLocale.setCookieName("superLanguage");
 		cookieLocale.setCookieMaxAge(7 * 24 * 3600);
 		return cookieLocale;
@@ -94,9 +94,7 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
-
 		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-
 		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
 	}
 
@@ -138,7 +136,7 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 	 */
 	private List<ResponseMessage> customizeResponseMessage() {
 		if(responseMessage == null) {
-			responseMessage = new ArrayList<ResponseMessage>();
+			responseMessage = new ArrayList<>();
 
 			ResponseMessage message_404 = new ResponseMessageBuilder().code(CodeEnum.ERROR_404.getCode())
 					.message(CodeEnum.ERROR_404.getMsg()).build();
@@ -162,7 +160,7 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 	 */
 	private List<Parameter> getHeadersParameter() {
 		if(headerParameter == null) {
-			headerParameter = new ArrayList<Parameter>();
+			headerParameter = new ArrayList<>();
 			
 			ParameterBuilder idHeader = new ParameterBuilder();
 			idHeader.name("id").description("username")

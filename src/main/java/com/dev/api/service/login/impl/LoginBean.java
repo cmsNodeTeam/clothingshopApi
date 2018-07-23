@@ -12,7 +12,7 @@ public class LoginBean implements ILoginService{
 	@Override
 	public Resp_Login userLogin(Req_Login params) {
 		Resp_Login login = new Resp_Login();
-		login.setSession("aaa");
+		login.setSession("sessionid");
 		return login;
 	}
 
