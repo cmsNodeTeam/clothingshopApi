@@ -1,5 +1,6 @@
 package com.dev.api.config;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +54,9 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 
 	@Value("${server.servlet.context-path}")
     private String cmsContextPath;
+	
+	@Value("${server.port}")
+	private String cmsPort;
 	
 	@Autowired
 	private CmsIfcConfig ifcConfig;
@@ -118,11 +122,12 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 
 	// 构建API文档的详细信息函数
 	private ApiInfo apiInfo() {
+		String url = MessageFormat.format("http://localhost:{0}{1}/superLogin", cmsPort, cmsContextPath);
 		return new ApiInfoBuilder()
 				// 页面标题
 				.title("Clothes Shop RESTful API")
 				// 创建人
-				.contact(new Contact("Konami.wu", "http://cc:8000"+ cmsContextPath +"/superLogin", "Oliver.wu@shijigroup.com"))
+				.contact(new Contact("Konami.wu", url, "Oliver.wu@shijigroup.com"))
 				// 版本号
 				.version("1.0")
 				// 描述

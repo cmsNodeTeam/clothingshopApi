@@ -37,8 +37,7 @@ public class UserSession {
 	}
 	
 	public String getRights() {
-		if(StringUtils.isEmpty(rights))return "";
-		return rights;
+		return StringUtils.isEmpty(this.rights) ? "" : this.rights;
 	}
 	
 	public void setRights(String rights) {

@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "CommonResult", description = "Response common results")
 public class CommonResult {
 	@ApiModelProperty(value = "Response Code", required = true)
-	private Integer code = 0;
+	private Integer code = CommonCode.FAILED;
 
 	@ApiModelProperty(value = "Response error message")
 	private String msg;
