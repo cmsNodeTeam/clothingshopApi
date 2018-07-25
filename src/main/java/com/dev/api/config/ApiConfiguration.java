@@ -80,9 +80,9 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 	
 	@Override
     public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(new GlobalInterceptor()).addPathPatterns("/*/**");
 		registry.addInterceptor(new ApiInterceptor()).addPathPatterns("/api/*/**");
 		registry.addInterceptor(new WebInterceptor()).addPathPatterns("/web/*/**");
-		registry.addInterceptor(new GlobalInterceptor()).addPathPatterns("/*/**");
     }
 	
 	@Bean
