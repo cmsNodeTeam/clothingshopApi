@@ -80,7 +80,16 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 	
 	@Override
     public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new GlobalInterceptor()).addPathPatterns("/*/**");
+		List<String> pathPatterns = new ArrayList<>();
+		pathPatterns.add("/superLogin");
+//		pathPatterns.add("/swagger-ui.html");
+//		pathPatterns.add("/swagger-resources/*/**");
+//		pathPatterns.add("/webjars/*/**");
+//		pathPatterns.add("/webjars/**");
+//		pathPatterns.add("/static/*/**");
+//		pathPatterns.add("/static/**");
+		registry.addInterceptor(new GlobalInterceptor()).addPathPatterns("/*/**")
+			.excludePathPatterns(pathPatterns);
 		registry.addInterceptor(new ApiInterceptor()).addPathPatterns("/api/*/**");
 		registry.addInterceptor(new WebInterceptor()).addPathPatterns("/web/*/**");
     }
@@ -152,9 +161,13 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 			ResponseMessage message_null = new ResponseMessageBuilder().code(CodeEnum.ERROR_NULL.getCode())
 					.message(CodeEnum.ERROR_NULL.getMsg()).build();
 
+			ResponseMessage message_method = new ResponseMessageBuilder().code(CodeEnum.METHOD_NOT_SUPPORTED.getCode())
+					.message(CodeEnum.METHOD_NOT_SUPPORTED.getMsg()).build();
+			
 			responseMessage.add(message_404);
 			responseMessage.add(message_500);
 			responseMessage.add(message_null);
+			responseMessage.add(message_method);
 		}
 		return responseMessage;
 	}
