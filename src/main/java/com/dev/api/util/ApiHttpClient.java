@@ -4,6 +4,8 @@ import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
+import java.util.LinkedHashMap;
+
 import javax.net.ssl.SSLContext;
 
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
@@ -72,14 +74,12 @@ public class ApiHttpClient {
 		return postSet(url, body, responseType, uriVariables).getBody();
 	}
 	
-	public <T> T post(String path, @Nullable Object body, Class<T> responseType, Object... uriVariables) {
-		String url = getUrl(path);
-		return postSet(url, body, responseType, uriVariables).getBody();
-	}
-	
-	private <T> ResponseEntity<T> postSet(String url, @Nullable Object body, Class<T> responseType, Object... uriVariables){
+	public <T> T postSet(String url, @Nullable Object body, Class<T> responseType, Object... uriVariables){
+		if(body == null) {
+			body = new LinkedHashMap<>();
+		}
 		HttpEntity<Object> requestEntity = new HttpEntity<Object>(body, getHeaders());
-		return restTemplate.exchange(url, HttpMethod.POST, requestEntity, responseType, uriVariables);
+		return restTemplate.exchange(url, HttpMethod.POST, requestEntity, responseType, uriVariables).getBody();
 	}
 
 }

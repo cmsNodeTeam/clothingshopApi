@@ -61,12 +61,12 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 	
 	@Override
     public void addInterceptors(InterceptorRegistry registry) {
-		List<String> pathPatterns = new ArrayList<>();
-		pathPatterns.add("/superLogin");
-		registry.addInterceptor(new GlobalInterceptor()).addPathPatterns("/*/**")
-			.excludePathPatterns(pathPatterns);
-		registry.addInterceptor(new ApiInterceptor()).addPathPatterns("/api/*/**");
-		registry.addInterceptor(new WebInterceptor()).addPathPatterns("/web/*/**");
+//		List<String> pathPatterns = new ArrayList<>();
+//		pathPatterns.add("/superLogin");
+//		registry.addInterceptor(new GlobalInterceptor()).addPathPatterns("/*/**")
+//			.excludePathPatterns(pathPatterns);
+//		registry.addInterceptor(new ApiInterceptor()).addPathPatterns("/api/*/**");
+//		registry.addInterceptor(new WebInterceptor()).addPathPatterns("/web/*/**");
     }
 	
 	@Bean
