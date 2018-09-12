@@ -2,13 +2,8 @@ package com.dev.api.config;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -21,16 +16,12 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
-import org.thymeleaf.spring5.view.ThymeleafViewResolver;
-
 import com.dev.api.interceptor.ApiInterceptor;
 import com.dev.api.interceptor.GlobalInterceptor;
 import com.dev.api.interceptor.WebInterceptor;
 import com.dev.api.schema.config.CmsApiConfig;
 import com.dev.api.schema.config.CmsIfcConfig;
-import com.dev.api.util.GlobalStatus;
 import com.dev.api.util.JsonUtils;
-import com.dev.api.util.RightsCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -68,26 +59,10 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 	
 	private List<Parameter> headerParameter;
 	
-	@Resource
-    private void configureThymeleafStaticVars(ThymeleafViewResolver viewResolver) {
-        if(viewResolver != null) {
-            Map<String, Object> vars = new HashMap<>();
-            vars.put("globals", new GlobalStatus());
-            vars.put("rights", new RightsCode());
-            viewResolver.setStaticVariables(vars);
-        }
-    }
-	
 	@Override
     public void addInterceptors(InterceptorRegistry registry) {
 		List<String> pathPatterns = new ArrayList<>();
 		pathPatterns.add("/superLogin");
-//		pathPatterns.add("/swagger-ui.html");
-//		pathPatterns.add("/swagger-resources/*/**");
-//		pathPatterns.add("/webjars/*/**");
-//		pathPatterns.add("/webjars/**");
-//		pathPatterns.add("/static/*/**");
-//		pathPatterns.add("/static/**");
 		registry.addInterceptor(new GlobalInterceptor()).addPathPatterns("/*/**")
 			.excludePathPatterns(pathPatterns);
 		registry.addInterceptor(new ApiInterceptor()).addPathPatterns("/api/*/**");
