@@ -27,7 +27,7 @@ public class JsonUtils {
 			public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition pos) {
 				return localFormat(date, toAppendTo, pos);
 			}
-			
+
 			public synchronized StringBuffer localFormat(Date date, StringBuffer toAppendTo, FieldPosition pos) {
 				return super.format(date, toAppendTo, pos);
 			}

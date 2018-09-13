@@ -12,21 +12,19 @@ import com.dev.api.service.config.IConfigService;
 import com.dev.api.util.ApiHttpClient;
 
 @Service
-public class ConfigBean implements IConfigService{
+public class ConfigBean implements IConfigService {
 
 	@Autowired
 	private ApiHttpClient httpClient;
-	
+
 	@Override
 	public Resp_ConfigQuery getConfigList(Req_ConfigQuery params) {
-		return httpClient.post(UrlEnum.Config, params
-				, Resp_ConfigQuery.class, "search");
+		return httpClient.post(UrlEnum.Config, params, Resp_ConfigQuery.class, "search");
 	}
 
 	@Override
 	public Resp_Sequence getSequence(Req_Sequence params) {
-		return httpClient.post(UrlEnum.Sequence, params
-				, Resp_Sequence.class, "getid");
+		return httpClient.post(UrlEnum.Sequence, params, Resp_Sequence.class, "getid");
 	}
 
 }

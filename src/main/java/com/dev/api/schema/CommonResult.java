@@ -10,7 +10,7 @@ public class CommonResult {
 
 	@ApiModelProperty(value = "Response error message")
 	private String msg;
-	
+
 	@ApiModelProperty(value = "Response redirect url")
 	private String redirectURL;
 
@@ -18,16 +18,12 @@ public class CommonResult {
 	}
 
 	public CommonResult(String msg) {
-		this(0, msg);
+		this(CommonCode.FAILED, msg);
 	}
 
 	public CommonResult(Integer code, String msg) {
 		this.code = code;
 		this.msg = msg;
-	}
-
-	public CommonResult(Integer code) {
-		this.code = code;
 	}
 
 	public Integer getCode() {
