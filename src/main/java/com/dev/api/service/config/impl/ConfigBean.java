@@ -27,4 +27,9 @@ public class ConfigBean implements IConfigService {
 		return httpClient.post(UrlEnum.Sequence, params, Resp_Sequence.class, "getid");
 	}
 
+	@Override
+	public Resp_ConfigQuery getConfigList(String query) {
+		return httpClient.get(UrlEnum.Config, query, Resp_ConfigQuery.class, "search");
+	}
+
 }

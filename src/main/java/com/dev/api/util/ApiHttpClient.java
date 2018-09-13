@@ -1,8 +1,6 @@
 package com.dev.api.util;
 
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
+import java.net.URLDecoder;
 import java.security.cert.X509Certificate;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
@@ -20,9 +18,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -41,7 +37,7 @@ public class ApiHttpClient {
 	private RestTemplate restTemplate;
 
 	@Bean
-	public RestTemplate restTemplate() throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException {
+	public RestTemplate restTemplate() throws Exception {
 		TrustStrategy acceptsStrategy = (X509Certificate[] certs, String authType) -> true;
 		SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(acceptsStrategy).build();
 		CloseableHttpClient httpClient = HttpClients.custom().setSSLContext(sslContext)
@@ -54,30 +50,16 @@ public class ApiHttpClient {
 		return new RestTemplate(httpFactory);
 	}
 
-	private String getUrl(String path) {
-		String url = apiConfig.getDomain();
-		if (path.startsWith("/")) {
-			return url + path;
-		}
-		return url + "/" + path;
-	}
-
 	private HttpHeaders getHeaders() {
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
 		HttpHeaders headers = new HttpHeaders();
 		Enumeration<String> headerName = request.getHeaderNames();
 		while (headerName.hasMoreElements()) {
-			String name = headerName.nextElement();
-			headers.add(name, request.getHeader(name));
+			String key = headerName.nextElement();
+			headers.add(key, request.getHeader(key));
 		}
 		return headers;
-	}
-
-	public <T> T post(UrlEnum urlEnum, @Nullable Object body, Class<T> responseType, Object... uriVariables) {
-		String path = (String) apiConfig.getUrl().get(urlEnum.toString());
-		String url = getHttpUrl(path);
-		return post(url, body, responseType, uriVariables);
 	}
 
 	private String getHttpUrl(String url) {
@@ -87,7 +69,20 @@ public class ApiHttpClient {
 		return apiConfig.getDomain() + url;
 	}
 
-	public <T> T post(String url, @Nullable Object body, Class<T> responseType, Object... uriVariables) {
+	public <T> T post(UrlEnum urlEnum, Object body, Class<T> responseType, Object... uriVariables) {
+		String path = (String) apiConfig.getUrl().get(urlEnum.toString());
+		return post(path, body, responseType, uriVariables);
+	}
+
+	public <T> T post(String url, Class<T> responseType, Object... uriVariables) {
+		return post(url, null, responseType, uriVariables);
+	}
+
+	public <T> T post(UrlEnum urlEnum, Class<T> responseType, Object... uriVariables) {
+		return post(urlEnum, null, responseType, uriVariables);
+	}
+
+	public <T> T post(String url, Object body, Class<T> responseType, Object... uriVariables) {
 		if (!url.startsWith("http")) {
 			// 没有以http或者https开头就给他加上域名
 			url = getHttpUrl(url);
@@ -98,5 +93,37 @@ public class ApiHttpClient {
 		HttpEntity<Object> requestEntity = new HttpEntity<Object>(body, getHeaders());
 		return restTemplate.exchange(url, HttpMethod.POST, requestEntity, responseType, uriVariables).getBody();
 	}
-
+	
+	public <T> T get(UrlEnum urlEnum, Class<T> responseType, Object... uriVariables) {
+		String path = (String) apiConfig.getUrl().get(urlEnum.toString());
+		return get(path, null, responseType, uriVariables);
+	}
+	
+	public <T> T get(UrlEnum urlEnum, String query, Class<T> responseType, Object... uriVariables) {
+		String path = (String) apiConfig.getUrl().get(urlEnum.toString());
+		return get(path, query, responseType, uriVariables);
+	}
+	
+	public <T> T get(String url, Class<T> responseType, Object... uriVariables) {
+		return get(url, null, responseType, uriVariables);
+	}
+	
+	public <T> T get(String url, String query, Class<T> responseType, Object... uriVariables) {
+		if (!url.startsWith("http")) {
+			// 没有以http或者https开头就给他加上域名
+			url = getHttpUrl(url);
+		}
+		String params = "";
+		if(query != null && !query.isEmpty()) {
+			try {
+				params = URLDecoder.decode(query, "utf-8");
+			} catch (Exception e) {
+			}
+		}
+		if(!params.isEmpty()) {
+			url += "?" + params;
+		}
+		HttpEntity<Object> requestEntity = new HttpEntity<Object>(null, getHeaders());
+		return restTemplate.exchange(url, HttpMethod.GET, requestEntity, responseType, uriVariables).getBody();
+	}
 }

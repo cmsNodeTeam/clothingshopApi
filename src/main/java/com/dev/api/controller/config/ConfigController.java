@@ -1,6 +1,9 @@
 package com.dev.api.controller.config;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +26,14 @@ public class ConfigController {
 
 	@ApiOperation(value = "系统配置接口", notes = "查询系统配置列表")
 	@PostMapping("query")
-	public Resp_ConfigQuery getConfigList(@RequestBody Req_ConfigQuery query) {
+	public Resp_ConfigQuery postConfigList(@RequestBody Req_ConfigQuery query) {
 		return configService.getConfigList(query);
+	}
+	
+	@ApiOperation(value = "系统配置接口", notes = "查询系统配置列表")
+	@GetMapping("query")
+	public Resp_ConfigQuery getConfigList(Req_ConfigQuery query, HttpServletRequest request) {
+		return configService.getConfigList(request.getQueryString());
 	}
 
 	@ApiOperation(value = "获取序列化ID", notes = "根据类型获取唯一序列化ID")

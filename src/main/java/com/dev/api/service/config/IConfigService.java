@@ -13,6 +13,8 @@ public interface IConfigService {
 	 * @return
 	 */
 	public Resp_ConfigQuery getConfigList(Req_ConfigQuery params);
+	
+	public Resp_ConfigQuery getConfigList(String query);
 
 	/**
 	 * 根据类型获取序列号
