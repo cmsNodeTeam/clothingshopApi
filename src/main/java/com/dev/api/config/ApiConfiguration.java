@@ -3,7 +3,6 @@ package com.dev.api.config;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -11,12 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-import org.springframework.web.servlet.i18n.CookieLocaleResolver;
-
 import com.dev.api.interceptor.GlobalInterceptor;
 import com.dev.api.schema.config.CmsApiConfig;
 import com.dev.api.schema.config.CmsIfcConfig;
@@ -63,32 +59,12 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 		registry.addInterceptor(new GlobalInterceptor()).addPathPatterns("/*/**");
     }
 	
-	@Bean
-	public LocaleResolver localeResolver() {
-		CookieLocaleResolver cookieLocale = new CookieLocaleResolver();
-		// 默认语言
-		cookieLocale.setDefaultLocale(Locale.CHINA);
-		cookieLocale.setCookieName("superLanguage");
-		cookieLocale.setCookieMaxAge(7 * 24 * 3600);
-		return cookieLocale;
-	}
-
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
 		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
 	}
 
-	@Bean
-	public Docket createLoginApi() {
-		return new Docket(DocumentationType.SWAGGER_2).groupName("Login").forCodeGeneration(true).apiInfo(apiInfo())
-				.select().apis(RequestHandlerSelectors.basePackage("com.dev.api.controller.login"))
-				.paths(PathSelectors.any()).build().globalResponseMessage(RequestMethod.GET, customizeResponseMessage())
-				.globalResponseMessage(RequestMethod.POST, customizeResponseMessage())
-				.globalOperationParameters(getHeadersParameter());
-	}
-	
 	@Bean
 	public Docket createConfigApi() {
 		return new Docket(DocumentationType.SWAGGER_2).groupName("Config").forCodeGeneration(true).apiInfo(apiInfo())
@@ -150,12 +126,12 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 			headerParameter = new ArrayList<>();
 			
 			ParameterBuilder idHeader = new ParameterBuilder();
-			idHeader.name("id").description("username")
+			idHeader.name("api-id").description("username")
 				.modelRef(new ModelRef("string")).parameterType("header")
 				.defaultValue(ifcConfig.getUsername()).required(true).build();
 			
 			ParameterBuilder keyHeader = new ParameterBuilder();
-			keyHeader.name("key").description("password")
+			keyHeader.name("api-key").description("password")
 				.modelRef(new ModelRef("string")).parameterType("header")
 				.defaultValue(ifcConfig.getPassword()).required(true).build();
 			
@@ -164,17 +140,17 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 			languageList.add("EN");
 			languageList.add("CN");
 			AllowableListValues languageAllow = new AllowableListValues(languageList, "string");
-			languageHeader.name("language").description("user language")
+			languageHeader.name("api-language").description("user language")
 				.modelRef(new ModelRef("string")).parameterType("header")
 				.required(false).allowableValues(languageAllow).build();
 			
 			ParameterBuilder shopidHeader = new ParameterBuilder();
-			shopidHeader.name("shopid").description("shop id")
+			shopidHeader.name("api-shopid").description("shop id")
 				.modelRef(new ModelRef("string")).parameterType("header")
 				.defaultValue(ifcConfig.getShopid()).required(true).build();
 			
 			ParameterBuilder cmsHeader = new ParameterBuilder();
-			cmsHeader.name("cms-interface").description("cms interface flag")
+			cmsHeader.name("api-cms-interface").description("cms interface flag")
 				.modelRef(new ModelRef("string")).parameterType("header")
 				.defaultValue(apiConfig.getHeader()).required(true).build();
 
