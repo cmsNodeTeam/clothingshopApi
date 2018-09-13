@@ -7,9 +7,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.dev.api.schema.CommonCode;
 import com.dev.api.schema.CommonResult;
-import com.dev.api.schema.exception.RedirectException;
+import com.dev.api.schema.exception.ApiException;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
@@ -21,9 +20,9 @@ public class ApiExceptionHandler {
 		if(e instanceof HttpRequestMethodNotSupportedException) {
 			result.setCode(CodeEnum.METHOD_NOT_SUPPORTED.getCode());
 			result.setMsg(e.getMessage());
-		}else if(e instanceof RedirectException) {
-			result.setRedirectURL(((RedirectException)e).getRedirectUrl());
-			result.setCode(CommonCode.REDIRECT);
+		}else if(e instanceof ApiException) {
+			result.setCode(((ApiException) e).getCode());
+			result.setMsg(e.getMessage());
 		}
 		e.printStackTrace();
 		return result;

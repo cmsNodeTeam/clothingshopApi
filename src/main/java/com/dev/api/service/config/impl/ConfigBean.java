@@ -19,13 +19,13 @@ public class ConfigBean implements IConfigService{
 	
 	@Override
 	public Resp_ConfigQuery getConfigList(Req_ConfigQuery params) {
-		return httpClient.post(UrlEnum.CONFIG, params
+		return httpClient.post(UrlEnum.Config, params
 				, Resp_ConfigQuery.class, "search");
 	}
 
 	@Override
 	public Resp_Sequence getSequence(Req_Sequence params) {
-		return httpClient.post(UrlEnum.SEQUENCE, params
+		return httpClient.post(UrlEnum.Sequence, params
 				, Resp_Sequence.class, "getid");
 	}
 

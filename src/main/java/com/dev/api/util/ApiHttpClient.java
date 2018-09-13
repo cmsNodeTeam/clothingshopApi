@@ -4,9 +4,11 @@ import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
+import java.util.Enumeration;
 import java.util.LinkedHashMap;
 
 import javax.net.ssl.SSLContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.TrustStrategy;
@@ -23,6 +25,8 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.dev.api.schema.config.CmsApiConfig;
 import com.dev.api.schema.config.UrlEnum;
@@ -60,21 +64,35 @@ public class ApiHttpClient {
 	}
 	
 	private HttpHeaders getHeaders(){
-		HttpHeaders apiHeaders = ServiceReferenceContext.getApiHeaders();
+		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+		HttpServletRequest request = attributes.getRequest();
 		HttpHeaders headers = new HttpHeaders();
-		if(apiHeaders != null) {
-			return apiHeaders;
+		Enumeration<String> headerName = request.getHeaderNames();
+		while (headerName.hasMoreElements()) {
+			String name = headerName.nextElement();
+			headers.add(name, request.getHeader(name));
 		}
 		return headers;
 	}
 	
 	public <T> T post(UrlEnum urlEnum, @Nullable Object body, Class<T> responseType, Object... uriVariables) {
 		String path = (String) apiConfig.getUrl().get(urlEnum.toString());
-		String url = getUrl(path);
-		return postSet(url, body, responseType, uriVariables).getBody();
+		String url = getHttpUrl(path);
+		return post(url, body, responseType, uriVariables);
 	}
 	
-	public <T> T postSet(String url, @Nullable Object body, Class<T> responseType, Object... uriVariables){
+	private String getHttpUrl(String url) {
+		if(!url.startsWith("/")) {
+			url = "/" + url;
+		}
+		return apiConfig.getDomain() + url;
+	}
+	
+	public <T> T post(String url, @Nullable Object body, Class<T> responseType, Object... uriVariables){
+		if(!url.startsWith("http")) {
+			//没有以http或者https开头就给他加上域名
+			url = getHttpUrl(url);
+		}
 		if(body == null) {
 			body = new LinkedHashMap<>();
 		}
