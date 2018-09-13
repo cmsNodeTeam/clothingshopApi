@@ -16,9 +16,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
-import com.dev.api.interceptor.ApiInterceptor;
+
 import com.dev.api.interceptor.GlobalInterceptor;
-import com.dev.api.interceptor.WebInterceptor;
 import com.dev.api.schema.config.CmsApiConfig;
 import com.dev.api.schema.config.CmsIfcConfig;
 import com.dev.api.util.JsonUtils;
@@ -61,12 +60,7 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 	
 	@Override
     public void addInterceptors(InterceptorRegistry registry) {
-//		List<String> pathPatterns = new ArrayList<>();
-//		pathPatterns.add("/superLogin");
-//		registry.addInterceptor(new GlobalInterceptor()).addPathPatterns("/*/**")
-//			.excludePathPatterns(pathPatterns);
-//		registry.addInterceptor(new ApiInterceptor()).addPathPatterns("/api/*/**");
-//		registry.addInterceptor(new WebInterceptor()).addPathPatterns("/web/*/**");
+		registry.addInterceptor(new GlobalInterceptor()).addPathPatterns("/*/**");
     }
 	
 	@Bean
