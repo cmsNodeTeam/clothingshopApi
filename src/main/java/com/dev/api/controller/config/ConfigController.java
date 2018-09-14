@@ -37,7 +37,7 @@ public class ConfigController {
 	}
 
 	@ApiOperation(value = "获取序列化ID", notes = "根据类型获取唯一序列化ID")
-	@PostMapping("sequence_id")
+	@PostMapping("sequence")
 	public Resp_Sequence getSequenceId(@RequestBody Req_Sequence type) {
 		return configService.getSequence(type);
 	}
