@@ -23,6 +23,9 @@ public class ApiExceptionHandler {
 		}else if(e instanceof ApiException) {
 			result.setCode(((ApiException) e).getCode());
 			result.setMsg(e.getMessage());
+		}else if(e instanceof NullPointerException) {
+			result.setCode(CodeEnum.ERROR_NULL.getCode());
+			result.setMsg(CodeEnum.ERROR_NULL.getMsg());
 		}
 		e.printStackTrace();
 		return result;
