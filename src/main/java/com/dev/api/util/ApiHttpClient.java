@@ -57,7 +57,7 @@ public class ApiHttpClient {
 		Enumeration<String> headerName = request.getHeaderNames();
 		while (headerName.hasMoreElements()) {
 			String key = headerName.nextElement();
-			headers.add(key, request.getHeader(key));
+			headers.set(key, request.getHeader(key));
 		}
 		return headers;
 	}
