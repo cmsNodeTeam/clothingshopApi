@@ -1,10 +1,9 @@
 package com.dev.api.config;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -13,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+
 import com.dev.api.interceptor.GlobalInterceptor;
-import com.dev.api.schema.config.CmsApiConfig;
 import com.dev.api.schema.config.CmsIfcConfig;
 import com.dev.api.util.JsonUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,17 +37,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 public class ApiConfiguration extends WebMvcConfigurationSupport {
 
-	@Value("${server.servlet.context-path}")
-    private String cmsContextPath;
-	
-	@Value("${server.port}")
-	private String cmsPort;
+//	@Autowired
+//	private Environment env;
 	
 	@Autowired
 	private CmsIfcConfig ifcConfig;
-	
-	@Autowired
-	private CmsApiConfig apiConfig;
 	
 	private List<ResponseMessage> responseMessage;
 	
@@ -66,26 +59,25 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 	}
 
 	@Bean
-	public Docket createConfigApi() {
-		return new Docket(DocumentationType.SWAGGER_2).groupName("Config").forCodeGeneration(true).apiInfo(apiInfo())
-				.select().apis(RequestHandlerSelectors.basePackage("com.dev.api.controller.config"))
-				.paths(PathSelectors.any()).build().globalResponseMessage(RequestMethod.GET, customizeResponseMessage())
+	public Docket createLoginApi() {
+		return new Docket(DocumentationType.SWAGGER_2).groupName("Login").forCodeGeneration(true).apiInfo(apiInfo())
+				.select().apis(RequestHandlerSelectors.basePackage("com.dev.api.controller.login"))
+				.paths(PathSelectors.any()).build()
 				.globalResponseMessage(RequestMethod.POST, customizeResponseMessage())
-				.globalOperationParameters(getHeadersParameter());
+				.globalOperationParameters(getLoginControllerParameter());
 	}
 
 	// 构建API文档的详细信息函数
 	private ApiInfo apiInfo() {
-		String url = MessageFormat.format("http://localhost:{0}{1}/superLogin", cmsPort, cmsContextPath);
 		return new ApiInfoBuilder()
 				// 页面标题
 				.title("Clothes Shop RESTful API")
 				// 创建人
-				.contact(new Contact("Konami.wu", url, "Oliver.wu@shijigroup.com"))
+				.contact(new Contact("Oliver", ifcConfig.getLoginPath(), "Oliver.wu@shijigroup.com"))
 				// 版本号
 				.version("1.0")
 				// 描述
-				.description("Clothes public API").build();
+				.description("Clothes Public API").build();
 	}
 
 	/**
@@ -117,6 +109,15 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 		return responseMessage;
 	}
 
+	private List<Parameter> getLoginControllerParameter(){
+		List<Parameter> params = getHeadersParameter();
+		List<Parameter> tempParams = new ArrayList<>();
+		for (int i = 1; i < params.size(); i++) {
+			tempParams.add(params.get(i));
+		}
+		return tempParams;
+	}
+	
 	/**
 	 * 添加请求头参数
 	 * @return
@@ -125,40 +126,23 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 		if(headerParameter == null) {
 			headerParameter = new ArrayList<>();
 			
-			ParameterBuilder idHeader = new ParameterBuilder();
-			idHeader.name("api-id").description("username")
+			ParameterBuilder credential = new ParameterBuilder();
+			credential.name("credential").description("用户凭证")
 				.modelRef(new ModelRef("string")).parameterType("header")
-				.defaultValue(ifcConfig.getUsername()).required(true).build();
+				.required(true).build();
 			
-			ParameterBuilder keyHeader = new ParameterBuilder();
-			keyHeader.name("api-key").description("password")
-				.modelRef(new ModelRef("string")).parameterType("header")
-				.defaultValue(ifcConfig.getPassword()).required(true).build();
-			
-			ParameterBuilder languageHeader = new ParameterBuilder();
+			ParameterBuilder language = new ParameterBuilder();
 			List<String> languageList = new ArrayList<>();
 			languageList.add("EN");
 			languageList.add("CN");
 			AllowableListValues languageAllow = new AllowableListValues(languageList, "string");
-			languageHeader.name("api-language").description("user language")
+			language.name("language").description("用户语言")
 				.modelRef(new ModelRef("string")).parameterType("header")
 				.required(false).allowableValues(languageAllow).build();
 			
-			ParameterBuilder shopidHeader = new ParameterBuilder();
-			shopidHeader.name("api-shopid").description("shop id")
-				.modelRef(new ModelRef("string")).parameterType("header")
-				.defaultValue(ifcConfig.getShopid()).required(true).build();
-			
-			ParameterBuilder cmsHeader = new ParameterBuilder();
-			cmsHeader.name("api-cms-interface").description("cms interface flag")
-				.modelRef(new ModelRef("string")).parameterType("header")
-				.defaultValue(apiConfig.getHeader()).required(true).build();
-
-			headerParameter.add(idHeader.build());
-			headerParameter.add(keyHeader.build());
-			headerParameter.add(languageHeader.build());
-			headerParameter.add(shopidHeader.build());
-			headerParameter.add(cmsHeader.build());
+		
+			headerParameter.add(credential.build());
+			headerParameter.add(language.build());
 		}
 		return headerParameter;
 	}

@@ -1,18 +1,13 @@
 package com.dev.api.schema;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel(value = "CommonResult", description = "Response common results")
 public class CommonResult {
-	@ApiModelProperty(value = "Response Code", required = true)
+	@ApiModelProperty(value = "响应代码", required = true)
 	private Integer code = CommonCode.FAILED;
 
-	@ApiModelProperty(value = "Response error message")
+	@ApiModelProperty(value = "错误信息", required = false)
 	private String msg;
-
-	@ApiModelProperty(value = "Response redirect url")
-	private String redirectURL;
 
 	public CommonResult() {
 	}
@@ -40,14 +35,6 @@ public class CommonResult {
 
 	public void setMsg(String msg) {
 		this.msg = msg;
-	}
-
-	public String getRedirectURL() {
-		return redirectURL;
-	}
-
-	public void setRedirectURL(String redirectURL) {
-		this.redirectURL = redirectURL;
 	}
 
 }

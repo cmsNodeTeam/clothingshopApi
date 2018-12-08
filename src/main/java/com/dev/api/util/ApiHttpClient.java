@@ -24,15 +24,14 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.dev.api.schema.config.CmsApiConfig;
-import com.dev.api.schema.config.UrlEnum;
+import com.dev.api.schema.config.CmsIfcConfig;
 
 @Component
 public class ApiHttpClient {
 
 	@Autowired
-	private CmsApiConfig apiConfig;
-
+	private CmsIfcConfig ifcConfig;
+	
 	@Autowired
 	private RestTemplate restTemplate;
 
@@ -56,8 +55,13 @@ public class ApiHttpClient {
 		HttpHeaders headers = new HttpHeaders();
 		Enumeration<String> headerName = request.getHeaderNames();
 		while (headerName.hasMoreElements()) {
-			String key = headerName.nextElement();
+			String key = headerName.nextElement().toLowerCase();
 			headers.set(key, request.getHeader(key));
+		}
+		for(String key: ifcConfig.getHeaders().keySet()) {
+			if(!headers.containsKey(key)) {
+				headers.set(key.toLowerCase(), ifcConfig.getHeaders().get(key));
+			}
 		}
 		return headers;
 	}
@@ -66,20 +70,16 @@ public class ApiHttpClient {
 		if (!url.startsWith("/")) {
 			url = "/" + url;
 		}
-		return apiConfig.getDomain() + url;
-	}
-
-	public <T> T post(UrlEnum urlEnum, Object body, Class<T> responseType, Object... uriVariables) {
-		String path = (String) apiConfig.getUrl().get(urlEnum.toString());
-		return post(path, body, responseType, uriVariables);
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		String contextPath = request.getContextPath();
+		if(!ApiUtils.isEmpty(contextPath)) {
+			url = url.replaceAll(contextPath, "");
+		}
+		return ifcConfig.getDomain() + url;
 	}
 
 	public <T> T post(String url, Class<T> responseType, Object... uriVariables) {
 		return post(url, null, responseType, uriVariables);
-	}
-
-	public <T> T post(UrlEnum urlEnum, Class<T> responseType, Object... uriVariables) {
-		return post(urlEnum, null, responseType, uriVariables);
 	}
 
 	public <T> T post(String url, Object body, Class<T> responseType, Object... uriVariables) {
@@ -92,16 +92,6 @@ public class ApiHttpClient {
 		}
 		HttpEntity<Object> requestEntity = new HttpEntity<Object>(body, getHeaders());
 		return restTemplate.exchange(url, HttpMethod.POST, requestEntity, responseType, uriVariables).getBody();
-	}
-	
-	public <T> T get(UrlEnum urlEnum, Class<T> responseType, Object... uriVariables) {
-		String path = (String) apiConfig.getUrl().get(urlEnum.toString());
-		return get(path, null, responseType, uriVariables);
-	}
-	
-	public <T> T get(UrlEnum urlEnum, String query, Class<T> responseType, Object... uriVariables) {
-		String path = (String) apiConfig.getUrl().get(urlEnum.toString());
-		return get(path, query, responseType, uriVariables);
 	}
 	
 	public <T> T get(String url, Class<T> responseType, Object... uriVariables) {
