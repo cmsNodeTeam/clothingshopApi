@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -37,21 +38,28 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 public class ApiConfiguration extends WebMvcConfigurationSupport {
 
-//	@Autowired
-//	private Environment env;
-	
+	// @Autowired
+	// private Environment env;
+
 	@Autowired
 	private CmsIfcConfig ifcConfig;
-	
+
 	private List<ResponseMessage> responseMessage;
-	
+
 	private List<Parameter> headerParameter;
-	
+
 	@Override
-    public void addInterceptors(InterceptorRegistry registry) {
+	protected void addCorsMappings(CorsRegistry registry) {
+		super.addCorsMappings(registry);
+		registry.addMapping("/**").allowedOrigins("*").allowedMethods("*")
+			.allowedHeaders("*").maxAge(3600);
+	}
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new GlobalInterceptor()).addPathPatterns("/*/**");
-    }
-	
+	}
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
@@ -86,7 +94,7 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 	 * @return
 	 */
 	private List<ResponseMessage> customizeResponseMessage() {
-		if(responseMessage == null) {
+		if (responseMessage == null) {
 			responseMessage = new ArrayList<>();
 
 			ResponseMessage message_404 = new ResponseMessageBuilder().code(CodeEnum.ERROR_404.getCode())
@@ -100,7 +108,7 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 
 			ResponseMessage message_method = new ResponseMessageBuilder().code(CodeEnum.METHOD_NOT_SUPPORTED.getCode())
 					.message(CodeEnum.METHOD_NOT_SUPPORTED.getMsg()).build();
-			
+
 			responseMessage.add(message_404);
 			responseMessage.add(message_500);
 			responseMessage.add(message_null);
@@ -109,7 +117,7 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 		return responseMessage;
 	}
 
-	private List<Parameter> getLoginControllerParameter(){
+	private List<Parameter> getLoginControllerParameter() {
 		List<Parameter> params = getHeadersParameter();
 		List<Parameter> tempParams = new ArrayList<>();
 		for (int i = 1; i < params.size(); i++) {
@@ -117,45 +125,40 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 		}
 		return tempParams;
 	}
-	
+
 	/**
 	 * 添加请求头参数
+	 * 
 	 * @return
 	 */
 	private List<Parameter> getHeadersParameter() {
-		if(headerParameter == null) {
+		if (headerParameter == null) {
 			headerParameter = new ArrayList<>();
-			
+
 			ParameterBuilder credential = new ParameterBuilder();
-			credential.name("credential").description("用户凭证")
-				.modelRef(new ModelRef("string")).parameterType("header")
-				.required(true).build();
-			
+			credential.name("credential").description("用户凭证").modelRef(new ModelRef("string")).parameterType("header")
+					.required(true).build();
+
 			ParameterBuilder language = new ParameterBuilder();
 			List<String> languageList = new ArrayList<>();
 			languageList.add("EN");
 			languageList.add("CN");
 			AllowableListValues languageAllow = new AllowableListValues(languageList, "string");
-			language.name("language").description("用户语言")
-				.modelRef(new ModelRef("string")).parameterType("header")
-				.required(false).allowableValues(languageAllow).build();
-			
-		
+			language.name("language").description("用户语言").modelRef(new ModelRef("string")).parameterType("header")
+					.required(false).allowableValues(languageAllow).build();
+
 			headerParameter.add(credential.build());
 			headerParameter.add(language.build());
 		}
 		return headerParameter;
 	}
-	
+
 	@Override
 	protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-		converters
-			.stream()
-			.filter((c) -> c instanceof AbstractJackson2HttpMessageConverter)
-			.forEach((c) -> {
-				ObjectMapper mapper = JsonUtils.getMapper();
-				((AbstractJackson2HttpMessageConverter)c).setObjectMapper(mapper);
+		converters.stream().filter((c) -> c instanceof AbstractJackson2HttpMessageConverter).forEach((c) -> {
+			ObjectMapper mapper = JsonUtils.getMapper();
+			((AbstractJackson2HttpMessageConverter) c).setObjectMapper(mapper);
 		});
 	}
-	
+
 }
