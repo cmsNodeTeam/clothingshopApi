@@ -44,7 +44,7 @@ public class LoginController {
 		@ApiResponse(code = CommonCode.INVALID_SESSION, message = CommonCode.INVALID_SESSION_MSG)
 		,@ApiResponse(code = CommonCode.SUCCESS_LOGOUT, message = CommonCode.SUCCESS_LOGOUT_MSG)
 	})
-	public CommonResult userLogin(@RequestHeader String credential, HttpServletRequest request) {
+	public CommonResult userLogout(@RequestHeader String credential, HttpServletRequest request) {
 		return loginService.userLogout(request);
 	}
 }
