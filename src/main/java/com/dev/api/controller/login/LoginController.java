@@ -28,7 +28,7 @@ public class LoginController {
 	@Autowired
 	private ILoginService loginService;
 	
-	@ApiOperation(value = "用户登录", notes = "用户登录接口")
+	@ApiOperation(value = "用户登录",  notes = "用户登录接口")
 	@PostMapping("/login")
 	@ApiResponses(value = { 
 		@ApiResponse(code = CommonCode.ERROR_HEADER, message = CommonCode.ERROR_HEADER_MSG)
