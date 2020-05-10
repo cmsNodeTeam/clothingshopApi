@@ -25,12 +25,12 @@ public class ApiAspect {
 	
 	@After(value = "logPointCut()")
 	public void doGlobalAfter(JoinPoint joinPoint) {
-//		Date date = new Date();
+		Date date = new Date();
 //		String clazzName = joinPoint.getSignature().getDeclaringTypeName();
 //		String methodName = joinPoint.getSignature().getName();
 		
 //		System.out.println(clazzName);
 //		System.out.println(methodName);
-//		System.out.println("耗时:" + (date.getTime() - currentDate.get()) + "ms");
+		System.out.println("耗时:" + (date.getTime() - currentDate.get()) + "ms");
 	}
 }
