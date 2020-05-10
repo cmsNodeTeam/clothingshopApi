@@ -2,9 +2,11 @@ package com.dev.api.controller.upload;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,9 +38,15 @@ public class UploadController {
 		String fileName = file.getOriginalFilename();
 		System.out.println(fileName);
 		
-		String path = "/upload/" + fileName;
+		String path = "./upload/" + fileName;
+		// 这个路径如果加.那么生成在src同级目录下,如果不加.,那么生成在d盘下
         File dest = new File(path);
-
+//        try {
+//			String path2 = ResourceUtils.getURL("classpath:").getPath();
+//			System.out.println(path2);
+//		} catch (FileNotFoundException e1) {
+//			e1.printStackTrace();
+//		}
         //判断文件是否已经存在
         if (dest.exists()) {
         	resp.put("code", 0);
@@ -52,7 +60,7 @@ public class UploadController {
         }
 
         try {
-            file.transferTo(dest); //保存文件
+        	FileCopyUtils.copy(file.getInputStream(), Files.newOutputStream(dest.toPath()));
         } catch (IOException e) {
         	e.printStackTrace();
         	resp.put("code", 0);
