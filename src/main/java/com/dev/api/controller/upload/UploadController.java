@@ -36,7 +36,7 @@ public class UploadController {
 		String fileName = file.getOriginalFilename();
 		System.out.println(fileName);
 		
-		String path = "./upload/" + fileName;
+		String path = "/upload/" + fileName;
         File dest = new File(path);
 
         //判断文件是否已经存在
