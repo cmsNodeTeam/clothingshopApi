@@ -74,6 +74,15 @@ public class ApiConfiguration extends WebMvcConfigurationSupport {
 				.globalResponseMessage(RequestMethod.POST, customizeResponseMessage())
 				.globalOperationParameters(getLoginControllerParameter());
 	}
+	
+	@Bean
+	public Docket createUploadApi() {
+		return new Docket(DocumentationType.SWAGGER_2).groupName("Upload").forCodeGeneration(true).apiInfo(apiInfo())
+				.select().apis(RequestHandlerSelectors.basePackage("com.dev.api.controller.upload"))
+				.paths(PathSelectors.any()).build()
+				.globalResponseMessage(RequestMethod.POST, customizeResponseMessage())
+				.globalOperationParameters(getLoginControllerParameter());
+	}
 
 	// 构建API文档的详细信息函数
 	private ApiInfo apiInfo() {
